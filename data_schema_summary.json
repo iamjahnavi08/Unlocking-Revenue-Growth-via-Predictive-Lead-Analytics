@@ -1,0 +1,293 @@
+{
+  "categorical": {
+    "lead_source": [
+      "Referral",
+      "Email Campaign",
+      "Branch Walk-In",
+      "Cold Call",
+      "Web Inquiry",
+      "Existing Customer Referral",
+      "Industry Event"
+    ],
+    "product_category": [
+      "Personal Loan",
+      "Investment Account",
+      "Credit Card",
+      "Home Loan",
+      "Insurance",
+      "Business Loan",
+      "Fixed Deposit"
+    ],
+    "product_sub_category": [
+      "General Purpose",
+      "Retirement (IRA)",
+      "Secured",
+      "Construction",
+      "Travel",
+      "Education",
+      "Auto",
+      "Equipment Finance",
+      "Medical",
+      "Mutual Fund",
+      "Working Capital",
+      "12-Month",
+      "SBA Loan",
+      "Annuity",
+      "Purchase",
+      "Cashback",
+      "Education (529)",
+      "Line of Credit",
+      "24-Month",
+      "Home Equity",
+      "Refinance",
+      "Business",
+      "Rewards",
+      "Life",
+      "Debt Consolidation",
+      "Stock Brokerage",
+      "36-Month",
+      "Home",
+      "Disability",
+      "Health",
+      "60-Month"
+    ],
+    "customer_type": [
+      "New",
+      "Existing"
+    ],
+    "customer_gender": [
+      "Female",
+      "Male",
+      "Non-Binary"
+    ],
+    "customer_employment_type": [
+      "Salaried",
+      "Self-Employed",
+      "Retired",
+      "Business Owner",
+      "Student"
+    ],
+    "customer_state": [
+      "CA",
+      "TX",
+      "SC",
+      "MI",
+      "WI",
+      "IL",
+      "CT",
+      "VA",
+      "PA",
+      "MO",
+      "ID",
+      "NC",
+      "NH",
+      "OH",
+      "NM",
+      "KY",
+      "CO",
+      "VT",
+      "GA",
+      "NY",
+      "MT",
+      "TN",
+      "DE",
+      "FL",
+      "SD",
+      "MN",
+      "NV",
+      "HI",
+      "WA",
+      "KS",
+      "IA",
+      "NJ",
+      "ME",
+      "AZ",
+      "AL",
+      "MD",
+      "MA",
+      "AR",
+      "UT",
+      "ND",
+      "MS",
+      "WV",
+      "LA",
+      "OK",
+      "NE",
+      "OR",
+      "IN",
+      "RI",
+      "AK",
+      "WY"
+    ],
+    "customer_city_tier": [
+      "Tier 2",
+      "Tier 3",
+      "Tier 1"
+    ],
+    "sales_rep_region": [
+      "West",
+      "Southeast",
+      "Midwest",
+      "Southwest",
+      "Northwest",
+      "Northeast"
+    ],
+    "sales_rep_tier": [
+      "Senior",
+      "Mid",
+      "Junior"
+    ],
+    "last_stage_reached": [
+      "Contract Review",
+      "Qualification",
+      "Proposal",
+      "Negotiation"
+    ],
+    "sentiment_last_interaction": [
+      "Neutral",
+      "Positive",
+      "Negative"
+    ]
+  },
+  "numerical": {
+    "deal_value_usd": {
+      "min": 500.0,
+      "max": 1580558.0,
+      "median": 19268.0,
+      "mean": 78155.41433871965
+    },
+    "customer_age": {
+      "min": 22.0,
+      "max": 78.0,
+      "median": 43.0,
+      "mean": 43.010875702417124
+    },
+    "customer_annual_income": {
+      "min": 12000.0,
+      "max": 780567.0,
+      "median": 81831.0,
+      "mean": 95526.04496813916
+    },
+    "customer_credit_score": {
+      "min": 376.0,
+      "max": 849.0,
+      "median": 604.0,
+      "mean": 603.3563036055172
+    },
+    "customer_existing_products_count": {
+      "min": 0.0,
+      "max": 8.0,
+      "median": 1.0,
+      "mean": 1.4244078186755573
+    },
+    "customer_relationship_tenure_years": {
+      "min": 0.0,
+      "max": 30.0,
+      "median": 0.5,
+      "mean": 2.7706503912026457
+    },
+    "customer_debt_to_income_ratio": {
+      "min": 0.02,
+      "max": 0.75,
+      "median": 0.26,
+      "mean": 0.2853414621030839
+    },
+    "sales_rep_experience_years": {
+      "min": 1.5,
+      "max": 25.0,
+      "median": 8.2,
+      "mean": 9.259563627564326
+    },
+    "sales_rep_monthly_quota_usd": {
+      "min": 58547.0,
+      "max": 250000.0,
+      "median": 113594.0,
+      "mean": 124222.38413142259
+    },
+    "sales_rep_ytd_quota_attainment_pct": {
+      "min": 17.3,
+      "max": 151.5,
+      "median": 87.3,
+      "mean": 87.29940445782809
+    },
+    "first_contact_response_hrs": {
+      "min": 0.5,
+      "max": 168.0,
+      "median": 15.0,
+      "mean": 20.404416153577284
+    },
+    "days_in_pipeline": {
+      "min": 1.0,
+      "max": 365.0,
+      "median": 24.0,
+      "mean": 33.4045788185949
+    },
+    "num_total_touchpoints": {
+      "min": 5.0,
+      "max": 40.0,
+      "median": 21.0,
+      "mean": 20.542145027290083
+    },
+    "num_calls_made": {
+      "min": 2.0,
+      "max": 18.0,
+      "median": 7.0,
+      "mean": 7.180827037345737
+    },
+    "num_emails_sent": {
+      "min": 3.0,
+      "max": 24.0,
+      "median": 11.0,
+      "mean": 10.774756002473584
+    },
+    "num_meetings_held": {
+      "min": 0.0,
+      "max": 10.0,
+      "median": 3.0,
+      "mean": 2.586561987470761
+    },
+    "proposal_sent": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 1.0,
+      "mean": 0.6510364853601485
+    },
+    "needs_analysis_completed": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.4788938778802463
+    },
+    "competitor_present": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.23289328637109133
+    },
+    "discount_offered_pct": {
+      "min": 0.0,
+      "max": 20.0,
+      "median": 0.3,
+      "mean": 2.133351705966176
+    },
+    "manager_escalated": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.14172021616970937
+    },
+    "customer_objection_raised": {
+      "min": 0.0,
+      "max": 1.0,
+      "median": 0.0,
+      "mean": 0.3820476971473127
+    },
+    "follow_up_consistency_score": {
+      "min": 15.0,
+      "max": 100.0,
+      "median": 65.0,
+      "mean": 65.33737531255882
+    }
+  },
+  "median_annual_income": 81831.0
+}
