@@ -117,7 +117,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Tailwind CSS CDN -->
@@ -135,8 +135,8 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                        outfit: ['Inter', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
+                        outfit: ['Plus Jakarta Sans', 'sans-serif'],
                     },
                     colors: {
                         darkBg: 'transparent',
@@ -177,6 +177,48 @@
             color: #f9fafb;
         }
 
+        /* Dynamic Background Orbs */
+        .bg-orb {
+            position: absolute;
+            border-radius: 9999px;
+            filter: blur(130px);
+            opacity: 0.15;
+            z-index: 0;
+            pointer-events: none;
+            transition: all 0.5s ease;
+        }
+        .dark .bg-orb {
+            opacity: 0.08;
+            filter: blur(150px);
+        }
+        .bg-orb-purple {
+            background: linear-gradient(135deg, #6C5CE7, #8b5cf6);
+            width: 45rem;
+            height: 45rem;
+            top: -10rem;
+            left: -10rem;
+            animation: float-orb-1 25s infinite alternate ease-in-out;
+        }
+        .bg-orb-emerald {
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            width: 40rem;
+            height: 40rem;
+            bottom: -5rem;
+            right: -5rem;
+            animation: float-orb-2 30s infinite alternate ease-in-out;
+        }
+        
+        @keyframes float-orb-1 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(8%, 10%) scale(1.1); }
+            100% { transform: translate(-4%, 5%) scale(0.95); }
+        }
+        @keyframes float-orb-2 {
+            0% { transform: translate(0, 0) scale(1); }
+            50% { transform: translate(-10%, -8%) scale(1.05); }
+            100% { transform: translate(5%, -5%) scale(0.9); }
+        }
+
         /* Custom scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
@@ -204,8 +246,9 @@
             background: #374151;
         }
 
-        /* Enhanced modern glassmorphism panels */
+        /* Enhanced modern glassmorphism panels with interactive reflections */
         .glass-panel {
+            position: relative;
             background: rgba(255, 255, 255, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -214,7 +257,8 @@
             box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.02),
                 0 4px 6px -1px rgba(0, 0, 0, 0.03),
                 0 10px 15px -3px rgba(0, 0, 0, 0.03);
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            overflow: hidden;
         }
 
         .dark .glass-panel {
@@ -224,8 +268,36 @@
                 0 10px 20px -5px rgba(0, 0, 0, 0.3);
         }
 
+        /* Spotlight hover reflection layer */
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(
+                450px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+                rgba(108, 92, 231, 0.06),
+                transparent 80%
+            );
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .dark .glass-panel::before {
+            background: radial-gradient(
+                450px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+                rgba(108, 92, 231, 0.12),
+                transparent 80%
+            );
+        }
+
+        .glass-panel:hover::before {
+            opacity: 1;
+        }
+
         .glass-panel:hover {
-            transform: translateY(-4px);
+            transform: translateY(-5px);
             box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
             border-color: rgba(203, 213, 225, 1);
         }
@@ -233,6 +305,12 @@
         .dark .glass-panel:hover {
             box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.4), 0 12px 15px -5px rgba(0, 0, 0, 0.2);
             border-color: rgba(255, 255, 255, 0.12);
+        }
+        
+        /* Ensure panel contents stay above spotlight background */
+        .glass-panel > * {
+            position: relative;
+            z-index: 2;
         }
 
         /* Glow active states */
@@ -246,7 +324,14 @@
 
         /* Tab transitions */
         .tab-content {
-            transition: opacity 0.3s ease-in-out;
+            opacity: 0;
+            transform: translateY(12px);
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        
+        .tab-content.visible-tab {
+            opacity: 1;
+            transform: translateY(0);
         }
 
         /* Circular progress styling */
@@ -587,7 +672,10 @@
 
 
         <!-- Main Content Area -->
-        <main class="flex-1 flex flex-col overflow-y-auto bg-darkBg dark:bg-[#0b0f19]">
+        <main class="flex-1 flex flex-col overflow-y-auto bg-darkBg dark:bg-[#0b0f19] relative overflow-x-hidden">
+            <!-- Floating Background Glow Orbs -->
+            <div class="bg-orb bg-orb-purple"></div>
+            <div class="bg-orb bg-orb-emerald"></div>
 
             <!-- Header bar -->
 
@@ -768,7 +856,7 @@
             <div class="flex-1 p-6 md:p-8 space-y-8">
 
                 <!-- 1. Executive Dashboard Tab -->
-                <div id="tab-dashboard" class="tab-content space-y-8">
+                <div id="tab-dashboard" class="tab-content visible-tab space-y-8">
 
                     <!-- Premium KPI Cards Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -3014,6 +3102,45 @@
         let selectedFile = null;
         let charts = {};
 
+        // Premium number counting animation
+        function animateValue(id, start, end, duration, isPercentage = false, isCurrency = false) {
+            const obj = document.getElementById(id);
+            if (!obj) return;
+            
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const easeProgress = progress * (2 - progress); // Ease out quad
+                const current = easeProgress * (end - start) + start;
+                
+                let formatted = "";
+                if (isCurrency) {
+                    formatted = formatCurrencyCompact(current);
+                } else if (isPercentage) {
+                    formatted = current.toFixed(1) + "%";
+                } else {
+                    formatted = Math.floor(current).toLocaleString();
+                }
+                
+                obj.innerText = formatted;
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                } else {
+                    let finalFormatted = "";
+                    if (isCurrency) {
+                        finalFormatted = formatCurrencyCompact(end);
+                    } else if (isPercentage) {
+                        finalFormatted = end.toFixed(1) + "%";
+                    } else {
+                        finalFormatted = Math.floor(end).toLocaleString();
+                    }
+                    obj.innerText = finalFormatted;
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+
         // App initialization
         window.addEventListener("DOMContentLoaded", async () => {
             await loadStats();
@@ -3021,6 +3148,18 @@
             loadDatabase(1);
             // Default select active sidebar link
             updateSidebarActiveState();
+
+            // Highly performant event delegation for card spotlight reflections
+            document.addEventListener('mousemove', e => {
+                const card = e.target.closest('.glass-panel');
+                if (card) {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                }
+            });
         });
 
 
@@ -3090,22 +3229,32 @@
             }
         });
 
-        // Tab switcher
+        // Tab switcher with fluid slide-in and fade animations
         function switchTab(tabId) {
             activeTab = tabId;
-            // Hide all
-            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            
+            // Hide all tabs by removing visible and adding hidden classes
+            document.querySelectorAll('.tab-content').forEach(el => {
+                el.classList.remove('visible-tab');
+                el.classList.add('hidden');
+            });
 
-            // Show target
-            document.getElementById(`tab-${tabId}`).classList.remove('hidden');
+            // Show and animate active tab
+            const targetEl = document.getElementById(`tab-${tabId}`);
+            if (targetEl) {
+                targetEl.classList.remove('hidden');
+                // Trigger reflow to restart CSS animation properly
+                targetEl.offsetHeight;
+                targetEl.classList.add('visible-tab');
+            }
 
-            // Reset nav buttons
+            // Reset nav buttons styling
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = "nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-slate-800/40 font-medium transition-all duration-300 group";
                 btn.classList.remove('glow-purple');
             });
 
-            // Set active
+            // Highlight active navigation button
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if (activeBtn) {
                 activeBtn.className = "nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#6C5CE7] to-[#5B6CFF] text-white font-medium transition-all duration-300 glow-purple group";
@@ -3229,26 +3378,25 @@
                 }
 
 
-                // Populate metric cards safely
-                if (document.getElementById('stat-total-leads')) document.getElementById('stat-total-leads').innerText = Number(data.summary.total_leads).toLocaleString();
-                if (document.getElementById('stat-conversion-rate')) document.getElementById('stat-conversion-rate').innerText = data.summary.conversion_rate.toFixed(1) + "%";
-                if (document.getElementById('stat-high-priority-pct')) document.getElementById('stat-high-priority-pct').innerText = data.summary.high_priority_pct.toFixed(1) + "%";
-                if (document.getElementById('stat-avg-lead-score')) document.getElementById('stat-avg-lead-score').innerText = data.summary.avg_lead_score.toFixed(1) + "%";
-
+                // Populate metric cards safely with premium counting animations
+                animateValue('stat-total-leads', 0, data.summary.total_leads, 1200);
+                animateValue('stat-conversion-rate', 0, data.summary.conversion_rate, 1200, true);
+                animateValue('stat-high-priority-pct', 0, data.summary.high_priority_pct, 1200, true);
+                animateValue('stat-avg-lead-score', 0, data.summary.avg_lead_score, 1200, true);
 
                 // Header values
-                document.getElementById('hdr-total-leads').innerText = Number(data.summary.total_leads).toLocaleString();
-                document.getElementById('hdr-conv-rate').innerText = data.summary.conversion_rate.toFixed(1) + "%";
+                animateValue('hdr-total-leads', 0, data.summary.total_leads, 1200);
+                animateValue('hdr-conv-rate', 0, data.summary.conversion_rate, 1200, true);
 
                 // Populate dynamic forecasting widgets
                 const projectedVal = data.summary.projected_deal_value || 4395168;
                 const totalDealVal = data.summary.total_deal_value || 12450900;
 
                 if (document.getElementById('forecast-projected-value')) {
-                    document.getElementById('forecast-projected-value').innerText = formatCurrencyCompact(projectedVal);
+                    animateValue('forecast-projected-value', 0, projectedVal, 1200, false, true);
                 }
                 if (document.getElementById('forecast-total-deal-value')) {
-                    document.getElementById('forecast-total-deal-value').innerText = formatCurrencyCompact(totalDealVal);
+                    animateValue('forecast-total-deal-value', 0, totalDealVal, 1200, false, true);
                 }
 
                 if (document.getElementById('forecast-q1-val')) {
