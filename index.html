@@ -411,6 +411,34 @@
             transform: scale(1.25);
         }
 
+        /* Read-Only Disabled State styling for dynamic model parameters */
+        input[type="range"].custom-slider:disabled {
+            cursor: not-allowed;
+            opacity: 0.85;
+        }
+
+        input[type="range"].custom-slider:disabled::-webkit-slider-thumb {
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 0 5px rgba(108, 92, 231, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="range"].custom-slider.custom-slider-amber:disabled::-webkit-slider-thumb {
+            box-shadow: 0 0 5px rgba(217, 119, 6, 0.25);
+        }
+
+        input[type="range"].custom-slider:disabled::-moz-range-thumb {
+            cursor: not-allowed;
+            transform: none !important;
+            box-shadow: 0 0 5px rgba(108, 92, 231, 0.25);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+        }
+
+        input[type="range"].custom-slider.custom-slider-amber:disabled::-moz-range-thumb {
+            box-shadow: 0 0 5px rgba(217, 119, 6, 0.25);
+        }
+
         /* Sliding Gradient Button */
         .btn-sliding-gradient {
             position: relative;
@@ -1135,10 +1163,14 @@
                         <!-- System Configurations -->
                         <div class="glass-panel p-6 flex flex-col justify-between xl:col-span-1">
                             <div>
-                                <h3
-                                    class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-100 dark:border-slate-800/60 pb-3 mb-4">
-                                    <i class="fa-solid fa-sliders text-[#6C5CE7]"></i> System Configurations
-                                </h3>
+                                <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/60 pb-3 mb-4">
+                                    <h3 class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                        <i class="fa-solid fa-sliders text-[#6C5CE7]"></i> System Configurations
+                                    </h3>
+                                    <span class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-md flex items-center gap-1 shadow-sm uppercase tracking-wider">
+                                        <i class="fa-solid fa-circle-check text-[7px] animate-pulse"></i> Auto-locked
+                                    </span>
+                                </div>
 
                                 <div class="space-y-4 text-xs">
                                     <div>
@@ -1169,18 +1201,28 @@
 
                                     <div class="space-y-2">
                                         <div class="flex justify-between items-center text-xs font-semibold">
-                                            <span class="text-slate-700 dark:text-slate-300">High Priority Limit</span>
-                                            <span class="text-[10px] font-extrabold bg-[#6C5CE7]/10 dark:bg-[#6C5CE7]/20 text-[#6C5CE7] dark:text-purple-300 px-2 py-0.5 rounded-md border border-[#6C5CE7]/10 shadow-sm">&gt;= 70%</span>
+                                            <span class="text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                                High Priority Limit
+                                                <span class="text-[9px] text-slate-400" title="Model specific auto-threshold"><i class="fa-solid fa-circle-info"></i></span>
+                                            </span>
+                                            <span id="settings-high-priority-badge" class="text-[10px] font-extrabold bg-[#6C5CE7]/10 dark:bg-[#6C5CE7]/20 text-[#6C5CE7] dark:text-purple-300 px-2 py-0.5 rounded-md border border-[#6C5CE7]/10 shadow-sm flex items-center gap-1">
+                                                <i class="fa-solid fa-lock text-[8px] opacity-70"></i> >= 70%
+                                            </span>
                                         </div>
-                                        <input type="range" min="50" max="90" value="70"
+                                        <input type="range" id="settings-high-priority" min="50" max="90" value="70" disabled
                                             class="w-full custom-slider custom-slider-purple h-1.5 rounded-lg">
                                     </div>
                                     <div class="space-y-2">
                                         <div class="flex justify-between items-center text-xs font-semibold">
-                                            <span class="text-slate-700 dark:text-slate-300">Medium Priority Limit</span>
-                                            <span class="text-[10px] font-extrabold bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-md border border-amber-500/10 shadow-sm">&gt;= 30%</span>
+                                            <span class="text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                                                Medium Priority Limit
+                                                <span class="text-[9px] text-slate-400" title="Model specific auto-threshold"><i class="fa-solid fa-circle-info"></i></span>
+                                            </span>
+                                            <span id="settings-medium-priority-badge" class="text-[10px] font-extrabold bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-md border border-amber-500/10 shadow-sm flex items-center gap-1">
+                                                <i class="fa-solid fa-lock text-[8px] opacity-70"></i> >= 30%
+                                            </span>
                                         </div>
-                                        <input type="range" min="10" max="49" value="30"
+                                        <input type="range" id="settings-medium-priority" min="10" max="49" value="30" disabled
                                             class="w-full custom-slider custom-slider-amber h-1.5 rounded-lg">
                                     </div>
                                 </div>
@@ -3284,6 +3326,35 @@
 
             // 4. Update Tested Algorithms Matrix layout dynamically to highlight selected model as active
             updateAlgorithmsMatrix(model.Model);
+
+            // 5. Update System Configuration thresholds (locked/read-only for each model)
+            let highLimit = 70;
+            let medLimit = 30;
+            if (model.Model === 'Random Forest Classifier' || model.Model === 'Random Forest') {
+                highLimit = 75;
+                medLimit = 35;
+            } else if (model.Model === 'XGBoost Optimized Classifier' || model.Model === 'XGBoost') {
+                highLimit = 80;
+                medLimit = 40;
+            }
+
+            const highSlider = document.getElementById('settings-high-priority');
+            const highBadge = document.getElementById('settings-high-priority-badge');
+            if (highSlider) {
+                highSlider.value = highLimit;
+            }
+            if (highBadge) {
+                highBadge.innerHTML = `<i class="fa-solid fa-lock text-[8px] mr-1 opacity-70"></i> >= ${highLimit}%`;
+            }
+
+            const medSlider = document.getElementById('settings-medium-priority');
+            const medBadge = document.getElementById('settings-medium-priority-badge');
+            if (medSlider) {
+                medSlider.value = medLimit;
+            }
+            if (medBadge) {
+                medBadge.innerHTML = `<i class="fa-solid fa-lock text-[8px] mr-1 opacity-70"></i> >= ${medLimit}%`;
+            }
         }
 
         // Dynamically style selected model in algorithms rank matrix
