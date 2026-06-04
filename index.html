@@ -10,7 +10,6 @@
             document.documentElement.classList.remove('dark');
         }
 
-        // Helper to format feature names beautifully
         function formatFeatureName(name) {
             if (!name) return 'Unknown';
             const overrides = {
@@ -34,7 +33,6 @@
             return clean.replace(/\w\S*/g, (txt) => txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase());
         }
 
-        // Dynamic Modal Toggles & Rendering
         function openModelModal() {
             const modal = document.getElementById('modelModal');
             if (window.appData && window.appData.model_results && window.appData.model_results.length > 0) {
@@ -114,15 +112,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lead Conversion Analytics & Prediction Platform</title>
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome Icons -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 
@@ -164,7 +160,6 @@
     <style>
         body {
             background-color: #F8FAFC;
-            /* Premium light grayish background */
             color: #0f172a;
             overflow-x: hidden;
             min-height: 100vh;
@@ -173,11 +168,10 @@
 
         .dark body {
             background-color: #030712;
-            /* Deep void space dark mode background */
             color: #f9fafb;
         }
 
-        /* Dynamic Background Orbs */
+
         .bg-orb {
             position: absolute;
             border-radius: 9999px;
@@ -187,10 +181,12 @@
             pointer-events: none;
             transition: all 0.5s ease;
         }
+
         .dark .bg-orb {
             opacity: 0.08;
             filter: blur(150px);
         }
+
         .bg-orb-purple {
             background: linear-gradient(135deg, #6C5CE7, #8b5cf6);
             width: 45rem;
@@ -199,6 +195,7 @@
             left: -10rem;
             animation: float-orb-1 25s infinite alternate ease-in-out;
         }
+
         .bg-orb-emerald {
             background: linear-gradient(135deg, #10b981, #3b82f6);
             width: 40rem;
@@ -207,19 +204,35 @@
             right: -5rem;
             animation: float-orb-2 30s infinite alternate ease-in-out;
         }
-        
+
         @keyframes float-orb-1 {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(8%, 10%) scale(1.1); }
-            100% { transform: translate(-4%, 5%) scale(0.95); }
-        }
-        @keyframes float-orb-2 {
-            0% { transform: translate(0, 0) scale(1); }
-            50% { transform: translate(-10%, -8%) scale(1.05); }
-            100% { transform: translate(5%, -5%) scale(0.9); }
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(8%, 10%) scale(1.1);
+            }
+
+            100% {
+                transform: translate(-4%, 5%) scale(0.95);
+            }
         }
 
-        /* Custom scrollbar */
+        @keyframes float-orb-2 {
+            0% {
+                transform: translate(0, 0) scale(1);
+            }
+
+            50% {
+                transform: translate(-10%, -8%) scale(1.05);
+            }
+
+            100% {
+                transform: translate(5%, -5%) scale(0.9);
+            }
+        }
+
         ::-webkit-scrollbar {
             width: 6px;
             height: 6px;
@@ -246,7 +259,6 @@
             background: #374151;
         }
 
-        /* Enhanced modern glassmorphism panels with interactive reflections */
         .glass-panel {
             position: relative;
             background: rgba(255, 255, 255, 0.7);
@@ -268,16 +280,13 @@
                 0 10px 20px -5px rgba(0, 0, 0, 0.3);
         }
 
-        /* Spotlight hover reflection layer */
         .glass-panel::before {
             content: '';
             position: absolute;
             inset: 0;
-            background: radial-gradient(
-                450px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-                rgba(108, 92, 231, 0.06),
-                transparent 80%
-            );
+            background: radial-gradient(450px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+                    rgba(108, 92, 231, 0.06),
+                    transparent 80%);
             z-index: 1;
             pointer-events: none;
             opacity: 0;
@@ -285,11 +294,9 @@
         }
 
         .dark .glass-panel::before {
-            background: radial-gradient(
-                450px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
-                rgba(108, 92, 231, 0.12),
-                transparent 80%
-            );
+            background: radial-gradient(450px circle at var(--mouse-x, 0px) var(--mouse-y, 0px),
+                    rgba(108, 92, 231, 0.12),
+                    transparent 80%);
         }
 
         .glass-panel:hover::before {
@@ -306,14 +313,12 @@
             box-shadow: 0 25px 35px -10px rgba(0, 0, 0, 0.4), 0 12px 15px -5px rgba(0, 0, 0, 0.2);
             border-color: rgba(255, 255, 255, 0.12);
         }
-        
-        /* Ensure panel contents stay above spotlight background */
-        .glass-panel > * {
+
+        .glass-panel>* {
             position: relative;
             z-index: 2;
         }
 
-        /* Glow active states */
         .glow-purple {
             box-shadow: 0 0 20px 2px rgba(108, 92, 231, 0.25);
         }
@@ -322,19 +327,17 @@
             box-shadow: 0 0 25px 4px rgba(108, 92, 231, 0.4);
         }
 
-        /* Tab transitions */
         .tab-content {
             opacity: 0;
             transform: translateY(12px);
             transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
-        
+
         .tab-content.visible-tab {
             opacity: 1;
             transform: translateY(0);
         }
 
-        /* Circular progress styling */
         .circle-bg {
             fill: none;
             stroke: #e2e8f0;
@@ -354,12 +357,10 @@
             transition: stroke-dasharray 0.8s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Sidebar transitions */
         aside {
             transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Funnel chart steps styles */
         .funnel-step {
             clip-path: polygon(0% 0%, 90% 0%, 100% 50%, 90% 100%, 0% 100%, 10% 50%);
             transition: all 0.3s ease;
@@ -378,7 +379,6 @@
             transform: scale(1.02);
         }
 
-        /* Timeline styles */
         .timeline-item::after {
             content: '';
             position: absolute;
@@ -397,7 +397,6 @@
             display: none;
         }
 
-        /* Animated grid overlay */
         .bg-grid {
             background-size: 40px 40px;
             background-image:
@@ -411,7 +410,6 @@
                 linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
         }
 
-        /* Skeleton pulse animation */
         @keyframes pulse {
 
             0%,
@@ -428,7 +426,6 @@
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
 
-        /* Custom Premium Sliders */
         input[type="range"].custom-slider {
             appearance: none;
             -webkit-appearance: none;
@@ -444,7 +441,6 @@
             background: #1e293b;
         }
 
-        /* Webkit Thumbs */
         input[type="range"].custom-slider::-webkit-slider-thumb {
             appearance: none;
             -webkit-appearance: none;
@@ -471,7 +467,6 @@
             transform: scale(1.25);
         }
 
-        /* Firefox Thumbs */
         input[type="range"].custom-slider::-moz-range-thumb {
             width: 16px;
             height: 16px;
@@ -496,7 +491,6 @@
             transform: scale(1.25);
         }
 
-        /* Read-Only Disabled State styling for dynamic model parameters */
         input[type="range"].custom-slider:disabled {
             cursor: not-allowed;
             opacity: 0.85;
@@ -524,7 +518,6 @@
             box-shadow: 0 0 5px rgba(217, 119, 6, 0.25);
         }
 
-        /* Sliding Gradient Button */
         .btn-sliding-gradient {
             position: relative;
             overflow: hidden;
@@ -553,19 +546,15 @@
 <body class="font-sans antialiased">
     <div class="flex h-screen overflow-hidden">
 
-        <!-- Sidebar Navigation -->
 
-        <!-- Premium Collapsible Floating Sidebar -->
         <aside id="main-sidebar"
             class="w-66 m-4 mr-0 bg-[#070714] dark:bg-[#03030b]/80 backdrop-blur-xl border border-slate-800/80 rounded-[28px] flex flex-col justify-between hidden md:flex z-50 transition-all duration-300 relative shadow-2xl">
-            <!-- Collapse Trigger Pin -->
             <button onclick="toggleSidebar()" id="sidebar-pin"
                 class="absolute -right-3 top-8 w-6 h-6 rounded-full bg-[#111124] dark:bg-slate-800 border border-slate-700/60 text-white flex items-center justify-center hover:scale-110 active:scale-95 transition-all shadow-md cursor-pointer">
                 <i id="sidebar-pin-icon" class="fa-solid fa-chevron-left text-[10px]"></i>
             </button>
 
             <div>
-                <!-- Logo Block -->
                 <div class="h-20 flex items-center px-6 border-b border-slate-800/50">
                     <div class="flex items-center gap-3 overflow-hidden">
                         <div
@@ -580,7 +569,6 @@
                     </div>
                 </div>
 
-                <!-- Navigation Links -->
                 <nav class="px-3.5 py-4 space-y-1.5 overflow-y-auto max-h-[calc(100vh-230px)] pr-2">
                     <button onclick="switchTab('dashboard')" id="nav-dashboard"
                         class="nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#6C5CE7] to-[#5B6CFF] text-white font-medium transition-all duration-300 glow-purple group">
@@ -641,7 +629,6 @@
                 </nav>
             </div>
 
-            <!-- Connection Status Area -->
             <div id="sidebar-footer"
                 class="p-4 border-t border-slate-800/50 mt-auto relative overflow-hidden transition-all duration-300">
                 <div class="relative bg-slate-900/40 border border-white/5 rounded-2xl p-4.5 shadow-2xl">
@@ -671,13 +658,10 @@
         </aside>
 
 
-        <!-- Main Content Area -->
         <main class="flex-1 flex flex-col overflow-y-auto bg-darkBg dark:bg-[#0b0f19] relative overflow-x-hidden">
-            <!-- Floating Background Glow Orbs -->
             <div class="bg-orb bg-orb-purple"></div>
             <div class="bg-orb bg-orb-emerald"></div>
 
-            <!-- Header bar -->
 
             <header
                 class="h-20 border-b border-slate-200/60 dark:border-slate-800/50 bg-white/70 dark:bg-slate-950/75 backdrop-blur-xl flex items-center justify-between px-8 sticky top-0 z-40">
@@ -693,7 +677,6 @@
                 </div>
 
                 <div class="flex items-center gap-6">
-                    <!-- Premium Search Bar -->
                     <div class="relative hidden lg:block">
                         <i
                             class="fa-solid fa-magnifying-glass absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-400 text-xs"></i>
@@ -701,7 +684,6 @@
                             class="pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 rounded-xl text-xs focus:outline-none focus:border-[#6C5CE7] focus:ring-4 focus:ring-[#6C5CE7]/5 w-60 focus:w-68 text-slate-700 dark:text-slate-300 transition-all duration-300 shadow-sm">
                     </div>
 
-                    <!-- Mini Stats Overlay -->
                     <div
                         class="hidden xl:flex items-center gap-5 bg-slate-50/70 dark:bg-slate-900/50 px-4.5 py-2.5 rounded-2xl border border-slate-100 dark:border-slate-800/50">
                         <div>
@@ -727,7 +709,6 @@
                         </div>
                     </div>
 
-                    <!-- Modern Date Picker -->
                     <div class="relative hidden md:block">
                         <button onclick="toggleDateFilter()" id="date-filter-btn"
                             class="flex bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 px-4.5 py-2.5 rounded-xl text-xs font-bold items-center gap-2.5 shadow-sm hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-colors cursor-pointer">
@@ -735,7 +716,6 @@
                             <span id="date-filter-text">Last 30 Days</span>
                             <i class="fa-solid fa-chevron-down text-[9px] ml-1"></i>
                         </button>
-                        <!-- Dropdown menu -->
                         <div id="date-filter-menu"
                             class="absolute right-0 mt-2 w-48 bg-white dark:bg-slate-950 rounded-2xl shadow-2xl border border-slate-100 dark:border-slate-800 py-2 hidden z-50">
                             <button onclick="selectDateFilter('Last 7 Days')"
@@ -753,7 +733,6 @@
                         </div>
                     </div>
 
-                    <!-- Quick actions and Notification Center -->
                     <div
                         class="flex items-center gap-4 text-slate-400 border-l border-slate-200 dark:border-slate-800 pl-6">
                         <button onclick="toggleTheme()"
@@ -770,7 +749,6 @@
                             A</div>
                     </div>
 
-                    <!-- Retrain Button with Purple Gradient Glow -->
                     <button onclick="retrainModelPrompt()"
                         class="hidden md:flex bg-gradient-to-r from-[#6C5CE7] to-[#5B6CFF] text-white px-5 py-2.5 rounded-xl font-bold text-xs items-center gap-2 transition-all shadow-md shadow-[#6C5CE7]/20 hover:shadow-[#6C5CE7]/35 active:scale-95 cursor-pointer">
                         <i class="fa-solid fa-arrows-rotate animate-spin-slow"></i> Retrain Model
@@ -779,7 +757,6 @@
             </header>
 
 
-            <!-- Mobile Navigation Overlay -->
             <div id="mobile-sidebar"
                 class="fixed inset-0 bg-darkBg dark:bg-[#0b0f19]/90 z-50 transform -translate-x-full transition-transform duration-300 ease-in-out md:hidden flex">
                 <div
@@ -852,15 +829,13 @@
                 </div>
             </div>
 
-            <!-- Page Contents Container -->
             <div class="flex-1 p-6 md:p-8 space-y-8">
 
-                <!-- 1. Executive Dashboard Tab -->
+
                 <div id="tab-dashboard" class="tab-content visible-tab space-y-8">
 
-                    <!-- Premium KPI Cards Grid -->
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                        <!-- Card 1: Total Leads -->
+
                         <div class="glass-panel p-6 flex flex-col justify-between relative overflow-hidden group">
                             <div
                                 class="absolute -right-12 -top-12 w-28 h-28 rounded-full bg-gradient-to-br from-[#6C5CE7] to-[#5B6CFF] opacity-5 dark:opacity-10 blur-xl group-hover:scale-125 transition-transform duration-500">
@@ -900,7 +875,6 @@
                             </div>
                         </div>
 
-                        <!-- Card 2: Conversion Rate -->
                         <div class="glass-panel p-6 flex flex-col justify-between relative overflow-hidden group">
                             <div
                                 class="absolute -right-12 -top-12 w-28 h-28 rounded-full bg-gradient-to-br from-emerald-400 to-emerald-600 opacity-5 dark:opacity-10 blur-xl group-hover:scale-125 transition-transform duration-500">
@@ -940,7 +914,6 @@
                             </div>
                         </div>
 
-                        <!-- Card 3: High Priority Leads -->
                         <div class="glass-panel p-6 flex flex-col justify-between relative overflow-hidden group">
                             <div
                                 class="absolute -right-12 -top-12 w-28 h-28 rounded-full bg-gradient-to-br from-amber-400 to-amber-600 opacity-5 dark:opacity-10 blur-xl group-hover:scale-125 transition-transform duration-500">
@@ -979,7 +952,6 @@
                             </div>
                         </div>
 
-                        <!-- Card 4: Average Score -->
                         <div class="glass-panel p-6 flex flex-col justify-between relative overflow-hidden group">
                             <div
                                 class="absolute -right-12 -top-12 w-28 h-28 rounded-full bg-gradient-to-br from-indigo-400 to-indigo-600 opacity-5 dark:opacity-10 blur-xl group-hover:scale-125 transition-transform duration-500">
@@ -1019,9 +991,8 @@
                         </div>
                     </div>
 
-                    <!-- Row 1: Lead Source Performance & Conversion Funnel -->
+
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6 mb-6">
-                        <!-- Conversion by Lead Source -->
                         <div class="glass-panel p-6 flex flex-col xl:col-span-2">
                             <div class="flex justify-between items-center mb-6">
                                 <div>
@@ -1044,7 +1015,6 @@
                             </div>
                         </div>
 
-                        <!-- Conversion Funnel Visualization -->
                         <div class="glass-panel p-6 flex flex-col justify-between">
                             <div>
                                 <div class="flex justify-between items-center mb-6">
@@ -1056,7 +1026,7 @@
                                     </div>
                                     <i class="fa-solid fa-filter text-slate-400 text-sm"></i>
                                 </div>
-                                <!-- Steps List -->
+
                                 <div class="space-y-3.5">
                                     <div class="space-y-1.5">
                                         <div
@@ -1132,10 +1102,7 @@
                         </div>
                     </div>
 
-                    <!-- Row 2: Product Category Analysis & Model Quick Specs -->
-                    <!-- Row 2: Product Category Analysis, Model Specs & System Configurations -->
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- Product Category Analysis -->
                         <div class="glass-panel p-6 flex flex-col xl:col-span-1">
                             <div class="flex justify-between items-center mb-6">
                                 <div>
@@ -1150,7 +1117,6 @@
                                     <canvas id="chart-product-category"></canvas>
                                 </div>
 
-                                <!-- Sleek stats banner at the bottom -->
                                 <div
                                     class="bg-slate-50/60 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800/50 backdrop-blur-md shadow-md rounded-2xl flex items-center justify-between p-4 relative overflow-hidden shrink-0 transition-all duration-300 hover:shadow-lg hover:border-slate-200 dark:hover:border-slate-800">
                                     <i
@@ -1173,7 +1139,6 @@
                             </div>
                         </div>
 
-                        <!-- Model Performance Summary (Quick Glance) -->
                         <div class="glass-panel p-6 flex flex-col justify-between xl:col-span-1">
                             <div>
                                 <div class="flex justify-between items-center mb-6">
@@ -1198,8 +1163,10 @@
                                         <span
                                             class="inline-flex items-center gap-1.5 text-[9px] text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-500/10 dark:bg-emerald-500/20 border border-emerald-500/20 px-2.5 py-0.5 rounded-full mt-2">
                                             <span class="relative flex h-1.5 w-1.5">
-                                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                                <span class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
+                                                <span
+                                                    class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                                <span
+                                                    class="relative inline-flex rounded-full h-1.5 w-1.5 bg-emerald-500"></span>
                                             </span>
                                             <span>Production Deployed</span>
                                         </span>
@@ -1248,14 +1215,16 @@
                             </button>
                         </div>
 
-                        <!-- System Configurations -->
                         <div class="glass-panel p-6 flex flex-col justify-between xl:col-span-1">
                             <div>
-                                <div class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/60 pb-3 mb-4">
-                                    <h3 class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                                <div
+                                    class="flex justify-between items-center border-b border-slate-100 dark:border-slate-800/60 pb-3 mb-4">
+                                    <h3
+                                        class="text-sm font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                                         <i class="fa-solid fa-sliders text-[#6C5CE7]"></i> System Configurations
                                     </h3>
-                                    <span class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-md flex items-center gap-1 shadow-sm uppercase tracking-wider">
+                                    <span
+                                        class="text-[8px] font-extrabold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-md flex items-center gap-1 shadow-sm uppercase tracking-wider">
                                         <i class="fa-solid fa-circle-check text-[7px] animate-pulse"></i> Auto-locked
                                     </span>
                                 </div>
@@ -1266,22 +1235,28 @@
                                             class="block text-xs font-semibold text-slate-600 dark:text-slate-300 mb-1.5">Active
                                             Scoring Pipeline</label>
                                         <div class="relative">
-                                            <select id="settings-model-select" onchange="changeSelectedModel(this.value)"
+                                            <select id="settings-model-select"
+                                                onchange="changeSelectedModel(this.value)"
                                                 class="w-full bg-white/70 dark:bg-slate-950/70 border border-slate-200/80 dark:border-slate-800/80 rounded-xl pl-3 pr-10 py-2.5 text-xs text-slate-900 dark:text-white appearance-none cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#6C5CE7]/30 transition-all">
-                                                <option value="Logistic Regression">Logistic Regression (Active)</option>
+                                                <option value="Logistic Regression">Logistic Regression (Active)
+                                                </option>
                                                 <option value="Random Forest">Random Forest Classifier</option>
                                                 <option value="XGBoost">XGBoost Optimized Classifier</option>
                                             </select>
-                                            <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
+                                            <div
+                                                class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-slate-400">
                                                 <i class="fa-solid fa-chevron-down text-[10px]"></i>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="flex justify-between items-center text-xs pt-1">
-                                        <span class="text-slate-600 dark:text-slate-400 font-semibold">Auto-train on synchronisations</span>
+                                        <span class="text-slate-600 dark:text-slate-400 font-semibold">Auto-train on
+                                            synchronisations</span>
                                         <label class="relative inline-flex items-center cursor-pointer">
                                             <input type="checkbox" class="sr-only peer" checked>
-                                            <div class="w-9 h-5 bg-slate-200 dark:bg-slate-800 rounded-full peer peer-focus:ring-2 peer-focus:ring-[#6C5CE7]/30 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-slate-600 peer-checked:bg-gradient-to-r peer-checked:from-[#6C5CE7] peer-checked:to-[#5B6CFF]"></div>
+                                            <div
+                                                class="w-9 h-5 bg-slate-200 dark:bg-slate-800 rounded-full peer peer-focus:ring-2 peer-focus:ring-[#6C5CE7]/30 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-slate-600 peer-checked:bg-gradient-to-r peer-checked:from-[#6C5CE7] peer-checked:to-[#5B6CFF]">
+                                            </div>
                                         </label>
                                     </div>
 
@@ -1291,36 +1266,41 @@
                                         <div class="flex justify-between items-center text-xs font-semibold">
                                             <span class="text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                                                 High Priority Limit
-                                                <span class="text-[9px] text-slate-400" title="Model specific auto-threshold"><i class="fa-solid fa-circle-info"></i></span>
+                                                <span class="text-[9px] text-slate-400"
+                                                    title="Model specific auto-threshold"><i
+                                                        class="fa-solid fa-circle-info"></i></span>
                                             </span>
-                                            <span id="settings-high-priority-badge" class="text-[10px] font-extrabold bg-[#6C5CE7]/10 dark:bg-[#6C5CE7]/20 text-[#6C5CE7] dark:text-purple-300 px-2 py-0.5 rounded-md border border-[#6C5CE7]/10 shadow-sm flex items-center gap-1">
+                                            <span id="settings-high-priority-badge"
+                                                class="text-[10px] font-extrabold bg-[#6C5CE7]/10 dark:bg-[#6C5CE7]/20 text-[#6C5CE7] dark:text-purple-300 px-2 py-0.5 rounded-md border border-[#6C5CE7]/10 shadow-sm flex items-center gap-1">
                                                 <i class="fa-solid fa-lock text-[8px] opacity-70"></i> >= 70%
                                             </span>
                                         </div>
-                                        <input type="range" id="settings-high-priority" min="50" max="90" value="70" disabled
-                                            class="w-full custom-slider custom-slider-purple h-1.5 rounded-lg">
+                                        <input type="range" id="settings-high-priority" min="50" max="90" value="70"
+                                            disabled class="w-full custom-slider custom-slider-purple h-1.5 rounded-lg">
                                     </div>
                                     <div class="space-y-2">
                                         <div class="flex justify-between items-center text-xs font-semibold">
                                             <span class="text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
                                                 Medium Priority Limit
-                                                <span class="text-[9px] text-slate-400" title="Model specific auto-threshold"><i class="fa-solid fa-circle-info"></i></span>
+                                                <span class="text-[9px] text-slate-400"
+                                                    title="Model specific auto-threshold"><i
+                                                        class="fa-solid fa-circle-info"></i></span>
                                             </span>
-                                            <span id="settings-medium-priority-badge" class="text-[10px] font-extrabold bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-md border border-amber-500/10 shadow-sm flex items-center gap-1">
+                                            <span id="settings-medium-priority-badge"
+                                                class="text-[10px] font-extrabold bg-amber-500/10 dark:bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded-md border border-amber-500/10 shadow-sm flex items-center gap-1">
                                                 <i class="fa-solid fa-lock text-[8px] opacity-70"></i> >= 30%
                                             </span>
                                         </div>
-                                        <input type="range" id="settings-medium-priority" min="10" max="49" value="30" disabled
-                                            class="w-full custom-slider custom-slider-amber h-1.5 rounded-lg">
+                                        <input type="range" id="settings-medium-priority" min="10" max="49" value="30"
+                                            disabled class="w-full custom-slider custom-slider-amber h-1.5 rounded-lg">
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div><!-- /row 2 grid -->
-                </div><!-- /.tab-dashboard -->
+                    </div>
+                </div>
 
 
-                <!-- PAGE 1: AI INSIGHTS TAB -->
                 <div id="tab-insights" class="tab-content hidden space-y-8 animate-in fade-in duration-300">
                     <div
                         class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
@@ -1337,7 +1317,6 @@
                             Analyzer</span>
                     </div>
 
-                    <!-- Glowing take-away card -->
                     <div
                         class="p-6 rounded-3xl bg-gradient-to-tr from-[#6C5CE7]/15 to-[#5B6CFF]/5 border border-[#6C5CE7]/20 flex flex-col md:flex-row items-center justify-between gap-4 shadow-md">
                         <div class="flex items-center gap-4">
@@ -1359,7 +1338,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- SHAP Chart -->
                         <div class="glass-panel p-6 flex flex-col xl:col-span-2">
                             <div class="flex justify-between items-center mb-6">
                                 <div>
@@ -1377,7 +1355,6 @@
                             </div>
                         </div>
 
-                        <!-- Drivers Metrics -->
                         <div class="glass-panel p-6 flex flex-col justify-between">
                             <div class="flex justify-between items-center mb-4">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Key Conversion Drivers
@@ -1441,7 +1418,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-6">
-                        <!-- Positive Factors -->
                         <div class="glass-panel p-6 space-y-4">
                             <h3
                                 class="text-sm font-extrabold text-emerald-500 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800/60 pb-3">
@@ -1467,7 +1443,6 @@
                             </div>
                         </div>
 
-                        <!-- Negative Factors -->
                         <div class="glass-panel p-6 space-y-4">
                             <h3
                                 class="text-sm font-extrabold text-rose-500 flex items-center gap-2 border-b border-slate-100 dark:border-slate-800/60 pb-3">
@@ -1496,7 +1471,6 @@
                 </div>
 
 
-                <!-- PAGE 2: STRATEGIC RECOMMENDATIONS TAB -->
                 <div id="tab-recommendations" class="tab-content hidden space-y-8 animate-in fade-in duration-300">
                     <div
                         class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
@@ -1510,9 +1484,7 @@
                         </div>
                     </div>
 
-                    <!-- Priority recommendations grid -->
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- High Card -->
                         <div
                             class="glass-panel p-6 flex flex-col justify-between border-t-4 border-t-purple-500 relative overflow-hidden group">
                             <div class="space-y-4">
@@ -1545,7 +1517,6 @@
                             </div>
                         </div>
 
-                        <!-- Med Card -->
                         <div
                             class="glass-panel p-6 flex flex-col justify-between border-t-4 border-t-amber-500 relative overflow-hidden group">
                             <div class="space-y-4">
@@ -1579,7 +1550,6 @@
                             </div>
                         </div>
 
-                        <!-- Low Card -->
                         <div
                             class="glass-panel p-6 flex flex-col justify-between border-t-4 border-t-indigo-500 relative overflow-hidden group">
                             <div class="space-y-4">
@@ -1613,7 +1583,6 @@
                         </div>
                     </div>
 
-                    <!-- Roadmap Stepper -->
                     <div class="glass-panel p-6 space-y-6">
                         <h3 class="text-md font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
                             <i class="fa-solid fa-timeline text-[#6C5CE7]"></i>
@@ -1654,7 +1623,6 @@
                 </div>
 
 
-                <!-- PAGE 3: MARKETING CAMPAIGN ANALYTICS TAB -->
                 <div id="tab-campaigns" class="tab-content hidden space-y-8 animate-in fade-in duration-300">
                     <div
                         class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
@@ -1668,7 +1636,6 @@
                         </div>
                     </div>
 
-                    <!-- Campaign performance stats -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="glass-panel p-4 flex flex-col justify-between text-left">
                             <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">Total Campaign
@@ -1693,7 +1660,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- Campaign performance Table -->
                         <div class="glass-panel p-6 flex flex-col justify-between xl:col-span-2">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Active Channels
@@ -1773,7 +1739,6 @@
                             </div>
                         </div>
 
-                        <!-- Campaign Charts container -->
                         <div class="glass-panel p-6 flex flex-col justify-between">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Channel Efficiency
@@ -1781,7 +1746,6 @@
                                 <i class="fa-solid fa-chart-pie text-slate-400"></i>
                             </div>
 
-                            <!-- Dynamic rendering slot or static representation -->
                             <div class="flex-1 flex flex-col justify-center space-y-4 text-xs">
                                 <div>
                                     <div class="flex justify-between mb-1"><span
@@ -1835,7 +1799,6 @@
 
 
 
-                <!-- PAGE 5: MODEL PERFORMANCE TAB -->
                 <div id="tab-model" class="tab-content hidden space-y-8 animate-in fade-in duration-300">
                     <div
                         class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
@@ -1849,7 +1812,6 @@
                         </div>
                     </div>
 
-                    <!-- Metrics Grid -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="glass-panel p-4 text-center">
                             <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">ROC-AUC
@@ -1875,7 +1837,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- ROC Curve visual representation -->
                         <div class="glass-panel p-6 flex flex-col xl:col-span-2">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Receiver Operating
@@ -1885,37 +1846,29 @@
                                     = 0.815</span>
                             </div>
 
-                            <!-- Premium SVG drawing of ROC Curve -->
                             <div
                                 class="flex-1 min-h-[300px] flex items-center justify-center relative p-4 bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-100 dark:border-slate-800">
                                 <svg viewBox="0 0 100 100" class="w-full max-w-[280px] h-auto overflow-visible">
-                                    <!-- Axes -->
                                     <line x1="10" y1="90" x2="95" y2="90" class="stroke-slate-400 dark:stroke-slate-600"
                                         stroke-width="1" />
                                     <line x1="10" y1="10" x2="10" y2="90" class="stroke-slate-400 dark:stroke-slate-600"
                                         stroke-width="1" />
 
-                                    <!-- Grid lines -->
                                     <line x1="10" y1="50" x2="95" y2="50" class="stroke-slate-200 dark:stroke-slate-800"
                                         stroke-dasharray="3" stroke-width="0.5" />
                                     <line x1="50" y1="10" x2="50" y2="90" class="stroke-slate-200 dark:stroke-slate-800"
                                         stroke-dasharray="3" stroke-width="0.5" />
 
-                                    <!-- Diagonal (random guess) -->
                                     <line x1="10" y1="90" x2="90" y2="10" class="stroke-slate-300 dark:stroke-slate-700"
                                         stroke-dasharray="2" stroke-width="0.75" />
 
-                                    <!-- Shaded purple area under curve (AUC) -->
                                     <path d="M10,90 Q30,40 50,22 T90,10 L90,90 Z" fill="rgba(108, 92, 231, 0.08)" />
 
-                                    <!-- ROC curve line -->
                                     <path d="M10,90 Q30,40 50,22 T90,10" fill="none" stroke="#6C5CE7" stroke-width="2.5"
                                         class="drop-shadow-[0_0_4px_rgba(108,92,231,0.5)]" />
 
-                                    <!-- Highlight dot -->
                                     <circle cx="50" cy="22" r="3" fill="#6C5CE7" stroke="#ffffff" stroke-width="1" />
 
-                                    <!-- Labels -->
                                     <text x="52" y="96" class="fill-slate-500 dark:fill-slate-400" font-size="3"
                                         text-anchor="middle" font-family="Inter">False Positive Rate (1 - Spec)</text>
                                     <text x="4" y="50" class="fill-slate-500 dark:fill-slate-400" font-size="3"
@@ -1928,7 +1881,6 @@
                             </div>
                         </div>
 
-                        <!-- Model comparisons matrix -->
                         <div class="glass-panel p-6 flex flex-col justify-between">
                             <div class="space-y-4">
                                 <h3
@@ -1982,10 +1934,6 @@
                 </div>
 
 
-
-
-
-                <!-- PAGE 7: LEAD QUALITY ANALYSIS TAB -->
                 <div id="tab-quality" class="tab-content hidden space-y-8 animate-in fade-in duration-300">
                     <div
                         class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-slate-200 dark:border-slate-800">
@@ -1999,7 +1947,6 @@
                         </div>
                     </div>
 
-                    <!-- Stats grid -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                         <div class="glass-panel p-4 text-center">
                             <span class="text-[9px] font-bold text-slate-400 uppercase tracking-widest">HIGH QUALITY
@@ -2024,7 +1971,6 @@
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- Score distribution representation -->
                         <div class="glass-panel p-6 flex flex-col xl:col-span-2">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Lead Score
@@ -2034,7 +1980,6 @@
                                     curve <i class="fa-solid fa-chart-line ml-1"></i></span>
                             </div>
 
-                            <!-- Static histogram visual representation -->
                             <div
                                 class="flex-1 min-h-[300px] flex items-end justify-between p-4 bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-100 dark:border-slate-800 relative">
                                 <div class="absolute inset-0 bg-grid rounded-2xl"></div>
@@ -2067,17 +2012,14 @@
                             </div>
                         </div>
 
-                        <!-- Original Doughnut chart quality -->
                         <div class="glass-panel p-6 flex flex-col justify-between">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Priority Grouping</h3>
                                 <i class="fa-solid fa-chart-pie text-slate-400"></i>
                             </div>
 
-                            <!-- Doughnut slot -->
                             <div class="flex-1 min-h-[200px] max-h-[220px] relative flex items-center justify-center">
                                 <canvas id="chart-lead-quality" class="relative z-10"></canvas>
-                                <!-- center text -->
                                 <div class="absolute flex flex-col items-center justify-center">
                                     <span class="text-2xl font-black text-slate-900 dark:text-white">12.6%</span>
                                     <span class="text-[9px] uppercase tracking-wider text-slate-400 font-bold">High
@@ -2090,7 +2032,6 @@
                         </div>
                     </div>
 
-                    <!-- Pipeline Revenue Forecasting Section -->
                     <div class="pt-6 pb-2">
                         <div class="flex items-center gap-3">
                             <div class="h-px bg-slate-200 dark:bg-slate-800 flex-1"></div>
@@ -2100,7 +2041,6 @@
                         </div>
                     </div>
 
-                    <!-- Forecast Cards -->
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-6">
                         <div
                             class="glass-panel p-6 flex flex-col justify-between text-left relative overflow-hidden group">
@@ -2192,9 +2132,7 @@
                         </div>
                     </div>
 
-                    <!-- Forecast line representation -->
                     <div class="grid grid-cols-1 xl:grid-cols-3 gap-6">
-                        <!-- Revenue trend line slot -->
                         <div class="glass-panel p-6 flex flex-col xl:col-span-2">
                             <div class="flex justify-between items-center mb-6">
                                 <h3 class="text-md font-extrabold text-slate-900 dark:text-white">Monthly Revenue
@@ -2204,22 +2142,17 @@
                                     analysis <i class="fa-solid fa-chart-line ml-1"></i></span>
                             </div>
 
-                            <!-- Static/Dynamic visual trend representation -->
                             <div
                                 class="flex-1 min-h-[300px] flex items-center justify-center p-4 bg-slate-50 dark:bg-slate-900/60 rounded-2xl border border-slate-100 dark:border-slate-800 relative">
                                 <div class="absolute inset-0 bg-grid rounded-2xl"></div>
                                 <svg viewBox="0 0 100 40"
                                     class="w-full h-full relative z-10 stroke-[#6C5CE7] stroke-2 fill-none overflow-visible">
-                                    <!-- Baseline grid -->
                                     <line x1="0" y1="35" x2="100" y2="35" stroke="#cbd5e1" stroke-width="0.3"
                                         stroke-dasharray="2" />
-                                    <!-- Actuals line (shorter) -->
                                     <path d="M0,32 Q15,30 30,24 T60,18" stroke="#5B6CFF" stroke-width="2"
                                         class="drop-shadow-[0_0_3px_rgba(91,108,255,0.4)]" />
-                                    <!-- Forecast trajectory line -->
                                     <path d="M0,32 Q15,30 30,24 T60,18 T90,8 T100,5" stroke="#6C5CE7" stroke-width="2"
                                         stroke-dasharray="3" class="drop-shadow-[0_0_4px_rgba(108,92,231,0.5)]" />
-                                    <!-- Circles highlights -->
                                     <circle cx="60" cy="18" r="1.5" fill="#5B6CFF" stroke="#ffffff"
                                         stroke-width="0.5" />
                                     <circle cx="90" cy="8" r="1.5" fill="#6C5CE7" stroke="#ffffff" stroke-width="0.5" />
@@ -2231,7 +2164,6 @@
                             </div>
                         </div>
 
-                        <!-- Quarterly Predictions -->
                         <div class="glass-panel p-6 flex flex-col justify-between">
                             <div class="space-y-4">
                                 <h3
@@ -2266,14 +2198,9 @@
                     </div>
                 </div>
 
-
-
-
-                <!-- 2. Real-time Lead Predictor Form Tab -->
                 <div id="tab-predictor" class="tab-content hidden space-y-8">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                        <!-- Prediction Input Form -->
                         <form id="prediction-form" onsubmit="submitPrediction(event)"
                             class="glass-panel rounded-xl p-6 lg:col-span-2 space-y-6">
                             <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
@@ -2284,9 +2211,7 @@
                                     and engagement details to predict conversion probability.</p>
                             </div>
 
-                            <!-- Form Sections -->
                             <div class="space-y-8">
-                                <!-- Section 1: Customer Profile -->
                                 <div class="space-y-4">
                                     <h4
                                         class="text-xs font-bold text-accentIndigo uppercase tracking-wider flex items-center gap-2">
@@ -2371,7 +2296,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 2: Lead & Deal Context -->
                                 <div class="space-y-4">
                                     <h4
                                         class="text-xs font-bold text-accentViolet uppercase tracking-wider flex items-center gap-2">
@@ -2428,7 +2352,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 3: Engagement & Pipeline Activity -->
                                 <div class="space-y-4">
                                     <h4
                                         class="text-xs font-bold text-accentEmerald uppercase tracking-wider flex items-center gap-2">
@@ -2544,7 +2467,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Section 4: Sales Representative Details -->
                                 <div class="space-y-4">
                                     <h4
                                         class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider flex items-center gap-2">
@@ -2600,10 +2522,8 @@
                             </div>
                         </form>
 
-                        <!-- Prediction Output Results Side Panel -->
                         <div class="space-y-6">
 
-                            <!-- Panel Card -->
                             <div class="glass-panel rounded-xl p-6 flex flex-col items-center text-center relative overflow-hidden"
                                 id="results-placeholder">
                                 <div
@@ -2618,22 +2538,18 @@
                                     recommendations.</p>
                             </div>
 
-                            <!-- Scored Panel Details (Hidden initially) -->
                             <div class="glass-panel rounded-xl p-6 flex flex-col gap-6 hidden" id="results-panel">
                                 <h3
                                     class="font-sans font-semibold text-md text-slate-900 dark:text-white text-left border-b border-slate-200 dark:border-slate-700 pb-3">
                                     Conversion Prediction</h3>
 
-                                <!-- Speedometer SVG / Score Circle -->
                                 <div class="relative flex items-center justify-center w-40 h-40 mx-auto">
-                                    <!-- Gauge Ring -->
                                     <svg class="w-full h-full" viewBox="0 0 100 100">
                                         <circle class="circle-bg" cx="50" cy="50" r="40" />
                                         <circle class="circle-progress" id="score-ring" cx="50" cy="50" r="40"
                                             stroke-dasharray="251.2" stroke-dashoffset="251.2" />
                                     </svg>
 
-                                    <!-- Dynamic text inside circle -->
                                     <div class="absolute inset-0 flex flex-col items-center justify-center">
                                         <span class="text-2xl font-bold font-sans text-slate-900 dark:text-white"
                                             id="score-text-pct">0%</span>
@@ -2642,7 +2558,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Priority Tag & Banner -->
                                 <div class="text-center space-y-2">
                                     <span
                                         class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase border"
@@ -2655,7 +2570,6 @@
                                         to Convert</h4>
                                 </div>
 
-                                <!-- Strategic Recommendations -->
                                 <div
                                     class="p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-700 text-left space-y-2">
                                     <h5 class="text-xs font-bold text-indigo-400 uppercase tracking-wider">Strategic
@@ -2664,14 +2578,12 @@
                                         id="score-recommendation">N/A</p>
                                 </div>
 
-                                <!-- Driving Factors -->
                                 <div class="text-left space-y-2.5">
                                     <h5
                                         class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">
                                         Top Driving
                                         Factors</h5>
                                     <ul class="space-y-2" id="score-factors">
-                                        <!-- Dynamically inserted -->
                                     </ul>
                                 </div>
                             </div>
@@ -2680,13 +2592,10 @@
                     </div>
                 </div>
 
-                <!-- 3. Lead Database Browser Tab -->
                 <div id="tab-database" class="tab-content hidden space-y-6">
-                    <!-- Filters Panel -->
                     <div
                         class="glass-panel rounded-xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div class="flex-1 flex flex-col sm:flex-row gap-3">
-                            <!-- Search -->
                             <div class="relative flex-1">
                                 <span
                                     class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-500 dark:text-slate-400">
@@ -2697,7 +2606,6 @@
                                     class="w-full bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-700 rounded-xl pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-accentIndigo">
                             </div>
 
-                            <!-- Priority Filter -->
                             <div class="w-full sm:w-48">
                                 <select id="db-filter-priority" onchange="loadDatabase(1)"
                                     class="w-full bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-accentIndigo">
@@ -2708,7 +2616,6 @@
                                 </select>
                             </div>
 
-                            <!-- Converted Filter -->
                             <div class="w-full sm:w-48">
                                 <select id="db-filter-converted" onchange="loadDatabase(1)"
                                     class="w-full bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-accentIndigo">
@@ -2724,7 +2631,6 @@
                         </div>
                     </div>
 
-                    <!-- Database Table Grid -->
                     <div
                         class="glass-panel rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700/40">
                         <div class="overflow-x-auto">
@@ -2743,12 +2649,10 @@
                                     </tr>
                                 </thead>
                                 <tbody id="db-table-body" class="divide-y divide-slate-800/50">
-                                    <!-- Dynamic rows -->
                                 </tbody>
                             </table>
                         </div>
 
-                        <!-- Pagination controls -->
                         <div
                             class="p-4 border-t border-slate-200 dark:border-slate-700/60 bg-white dark:bg-slate-900 shadow-sm/20 flex flex-col sm:flex-row items-center justify-between gap-4">
                             <div class="text-xs text-slate-500 dark:text-slate-400 font-semibold" id="db-page-info">
@@ -2766,13 +2670,11 @@
                             </div>
                         </div>
                     </div>
-                </div><!-- /.tab-database -->
+                </div>
 
-                <!-- 4. Bulk CSV Scorer Tab -->
                 <div id="tab-bulk" class="tab-content hidden space-y-8">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-                        <!-- Upload Section -->
                         <div class="glass-panel rounded-xl p-6 space-y-6 flex flex-col justify-between">
                             <div class="space-y-4">
                                 <div class="border-b border-slate-200 dark:border-slate-700 pb-3">
@@ -2783,7 +2685,6 @@
                                         The model will run predictions on all leads and generate scored outputs.</p>
                                 </div>
 
-                                <!-- File Upload Area -->
                                 <div id="dropzone" ondragover="event.preventDefault(); highlightDropzone()"
                                     ondragleave="unhighlightDropzone()" ondrop="handleDrop(event)"
                                     class="border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-xl p-8 flex flex-col items-center justify-center text-center cursor-pointer hover:border-accentIndigo hover:bg-slate-50 dark:bg-slate-800/50/10 transition-all group">
@@ -2804,7 +2705,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Selected File Badge -->
                                 <div id="selected-file-info"
                                     class="hidden p-3.5 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-700 flex items-center justify-between">
                                     <div class="flex items-center gap-3">
@@ -2837,7 +2737,6 @@
                             </div>
                         </div>
 
-                        <!-- Scored Result Preview (Hidden initially) -->
                         <div class="glass-panel rounded-xl p-6 lg:col-span-2 space-y-6 flex flex-col justify-between hidden"
                             id="bulk-results-panel">
                             <div class="space-y-4">
@@ -2845,7 +2744,6 @@
                                     class="font-sans font-semibold text-md text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3">
                                     Scoring Output Summary</h3>
 
-                                <!-- Bulk Stats Cards -->
                                 <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                                     <div
                                         class="p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm/60 border border-slate-200 dark:border-slate-700 text-left">
@@ -2882,7 +2780,6 @@
                                     </div>
                                 </div>
 
-                                <!-- Preview Table -->
                                 <div class="space-y-2">
                                     <span
                                         class="text-xs font-bold text-slate-600 dark:text-slate-300 uppercase tracking-wider">Scoring
@@ -2901,7 +2798,6 @@
                                                 </tr>
                                             </thead>
                                             <tbody id="bulk-preview-tbody" class="divide-y divide-slate-800/40">
-                                                <!-- Dynamic preview rows -->
                                             </tbody>
                                         </table>
                                     </div>
@@ -2916,12 +2812,10 @@
         </main>
     </div>
 
-    <!-- Lead Detail Modal -->
     <div id="lead-modal"
         class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-darkBg dark:bg-[#0b0f19]/80 backdrop-blur-sm hidden">
         <div
             class="glass-panel w-full max-w-2xl rounded-xl overflow-hidden shadow-2xl border border-slate-200 dark:border-slate-700 animate-in fade-in zoom-in duration-200">
-            <!-- Modal Header -->
             <div
                 class="px-6 py-4 border-b border-slate-200 dark:border-slate-700/80 flex items-center justify-between bg-white dark:bg-slate-900 shadow-sm/40">
                 <div class="flex items-center gap-3">
@@ -2942,10 +2836,8 @@
                 </button>
             </div>
 
-            <!-- Modal Body (Grid of statistics) -->
             <div class="p-6 max-h-[70vh] overflow-y-auto space-y-6">
 
-                <!-- Quick summary bar -->
                 <div
                     class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm border border-slate-200 dark:border-slate-700">
                     <div class="text-center">
@@ -2968,9 +2860,7 @@
                     </div>
                 </div>
 
-                <!-- Detailed Grid Sections -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs">
-                    <!-- Customer Details -->
                     <div
                         class="space-y-3 p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm/40 border border-slate-200 dark:border-slate-700/55">
                         <h4 class="font-bold text-accentIndigo uppercase tracking-wider mb-2 flex items-center gap-1.5">
@@ -3000,7 +2890,6 @@
                         </div>
                     </div>
 
-                    <!-- Rep & Region Details -->
                     <div
                         class="space-y-3 p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm/40 border border-slate-200 dark:border-slate-700/55">
                         <h4 class="font-bold text-accentViolet uppercase tracking-wider mb-2 flex items-center gap-1.5">
@@ -3028,7 +2917,6 @@
                         </div>
                     </div>
 
-                    <!-- Engagement Detail -->
                     <div
                         class="space-y-3 p-4 rounded-xl bg-white dark:bg-slate-900 shadow-sm/40 border border-slate-200 dark:border-slate-700/55 sm:col-span-2">
                         <h4
@@ -3083,7 +2971,6 @@
                 </div>
 
             </div>
-            <!-- Modal Footer -->
             <div
                 class="px-6 py-4 border-t border-slate-200 dark:border-slate-700/80 bg-white dark:bg-slate-900 shadow-sm/20 flex justify-end">
                 <button onclick="closeLeadModal()"
@@ -3092,7 +2979,6 @@
         </div>
     </div>
 
-    <!-- Frontend logic javascript app.js inline -->
     <script>
 
         const API_BASE = "/api";
@@ -3102,18 +2988,17 @@
         let selectedFile = null;
         let charts = {};
 
-        // Premium number counting animation
         function animateValue(id, start, end, duration, isPercentage = false, isCurrency = false) {
             const obj = document.getElementById(id);
             if (!obj) return;
-            
+
             let startTimestamp = null;
             const step = (timestamp) => {
                 if (!startTimestamp) startTimestamp = timestamp;
                 const progress = Math.min((timestamp - startTimestamp) / duration, 1);
                 const easeProgress = progress * (2 - progress); // Ease out quad
                 const current = easeProgress * (end - start) + start;
-                
+
                 let formatted = "";
                 if (isCurrency) {
                     formatted = formatCurrencyCompact(current);
@@ -3122,7 +3007,7 @@
                 } else {
                     formatted = Math.floor(current).toLocaleString();
                 }
-                
+
                 obj.innerText = formatted;
                 if (progress < 1) {
                     window.requestAnimationFrame(step);
@@ -3141,15 +3026,11 @@
             window.requestAnimationFrame(step);
         }
 
-        // App initialization
         window.addEventListener("DOMContentLoaded", async () => {
             await loadStats();
-            // Load initial database records
             loadDatabase(1);
-            // Default select active sidebar link
             updateSidebarActiveState();
 
-            // Highly performant event delegation for card spotlight reflections
             document.addEventListener('mousemove', e => {
                 const card = e.target.closest('.glass-panel');
                 if (card) {
@@ -3184,7 +3065,6 @@
             modal.classList.remove('hidden');
             modal.classList.add('flex');
 
-            // Fix close bug by swapping flex/hidden properly on close
             const closeBtn = modal.querySelector('button');
             closeBtn.onclick = function () {
                 modal.classList.add('hidden');
@@ -3192,7 +3072,6 @@
             };
         }
 
-        // Date Filter Logic
         function toggleDateFilter() {
             const menu = document.getElementById('date-filter-menu');
             if (menu) menu.classList.toggle('hidden');
@@ -3229,38 +3108,31 @@
             }
         });
 
-        // Tab switcher with fluid slide-in and fade animations
         function switchTab(tabId) {
             activeTab = tabId;
-            
-            // Hide all tabs by removing visible and adding hidden classes
+
             document.querySelectorAll('.tab-content').forEach(el => {
                 el.classList.remove('visible-tab');
                 el.classList.add('hidden');
             });
 
-            // Show and animate active tab
             const targetEl = document.getElementById(`tab-${tabId}`);
             if (targetEl) {
                 targetEl.classList.remove('hidden');
-                // Trigger reflow to restart CSS animation properly
                 targetEl.offsetHeight;
                 targetEl.classList.add('visible-tab');
             }
 
-            // Reset nav buttons styling
             document.querySelectorAll('.nav-btn').forEach(btn => {
                 btn.className = "nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl text-slate-400 hover:text-white hover:bg-slate-800/40 font-medium transition-all duration-300 group";
                 btn.classList.remove('glow-purple');
             });
 
-            // Highlight active navigation button
             const activeBtn = document.getElementById(`nav-${tabId}`);
             if (activeBtn) {
                 activeBtn.className = "nav-btn w-full flex items-center gap-3.5 px-4 py-3 rounded-2xl bg-gradient-to-r from-[#6C5CE7] to-[#5B6CFF] text-white font-medium transition-all duration-300 glow-purple group";
             }
 
-            // Update page header titles dynamically
             const headerData = {
                 'dashboard': {
                     title: 'Executive View',
@@ -3321,7 +3193,6 @@
             }
         }
 
-        // Mobile Tab Switcher
         function switchTabMobile(tabId) {
             switchTab(tabId);
             toggleMobileSidebar();
@@ -3340,7 +3211,6 @@
             switchTab(activeTab);
         }
 
-        // Premium compact currency formatter
         function formatCurrencyCompact(val) {
             if (val === undefined || val === null || isNaN(val)) return "$0";
             if (val >= 1e9) {
@@ -3353,42 +3223,35 @@
             return "$" + val.toLocaleString(undefined, { maximumFractionDigits: 0 });
         }
 
-        // Fetch Analytics and setup charts
         async function loadStats() {
             try {
                 const res = await fetch(`${API_BASE}/stats`);
                 const data = await res.json();
                 window.appData = data; // Store globally for modals
 
-                // Set Connection footer text & select default model
                 if (data.model_results && data.model_results.length > 0) {
                     const champ = data.model_results[0];
                     document.getElementById('model-type-footer').innerText = `${champ.Model} (AUC: ${(champ['ROC-AUC'] * 100).toFixed(1)}%)`;
 
-                    // Sync settings select dropdown on load
                     const selectEl = document.getElementById('settings-model-select');
                     if (selectEl) {
                         selectEl.value = champ.Model;
                     }
 
-                    // Trigger initial display update to match active model
                     changeSelectedModel(champ.Model, true);
                 } else {
                     document.getElementById('model-type-footer').innerText = "Not Trained";
                 }
 
 
-                // Populate metric cards safely with premium counting animations
                 animateValue('stat-total-leads', 0, data.summary.total_leads, 1200);
                 animateValue('stat-conversion-rate', 0, data.summary.conversion_rate, 1200, true);
                 animateValue('stat-high-priority-pct', 0, data.summary.high_priority_pct, 1200, true);
                 animateValue('stat-avg-lead-score', 0, data.summary.avg_lead_score, 1200, true);
 
-                // Header values
                 animateValue('hdr-total-leads', 0, data.summary.total_leads, 1200);
                 animateValue('hdr-conv-rate', 0, data.summary.conversion_rate, 1200, true);
 
-                // Populate dynamic forecasting widgets
                 const projectedVal = data.summary.projected_deal_value || 4395168;
                 const totalDealVal = data.summary.total_deal_value || 12450900;
 
@@ -3409,12 +3272,10 @@
                     document.getElementById('forecast-q3-val').innerText = formatCurrencyCompact(projectedVal * 0.45) + " Target";
                 }
 
-                // Generate Predictor Form select dropdown schemas
                 if (data.category_schemas) {
                     populatePredictorDropdowns(data.category_schemas);
                 }
 
-                // Draw charts
                 renderFeatureImportanceChart(data.feature_importance);
                 renderLeadSourceChart(data.lead_sources);
                 renderProductCategoryChart(data.product_categories, data.summary.conversion_rate);
@@ -3425,20 +3286,17 @@
             }
         }
 
-        // Dynamic selected model handler
         function changeSelectedModel(modelName, isInitialLoad = false) {
             if (!window.appData || !window.appData.model_results) return;
 
             const model = window.appData.model_results.find(m => m.Model === modelName);
             if (!model) return;
 
-            // 1. Update Connection status in sidebar footer
             const footerEl = document.getElementById('model-type-footer');
             if (footerEl) {
                 footerEl.innerText = `${model.Model} (AUC: ${(model['ROC-AUC'] * 100).toFixed(1)}%)`;
             }
 
-            // 2. Update Active Predictor Model quick specs (Dashboard Tab)
             const dashName = document.getElementById('dash-model-name');
             if (dashName) dashName.innerText = model.Model + (model.Model === 'Logistic Regression' ? ' v2.1' : '');
 
@@ -3454,7 +3312,6 @@
             const dashRec = document.getElementById('dash-model-recall');
             if (dashRec) dashRec.innerText = (model.Recall * 100).toFixed(1) + '%';
 
-            // 3. Update Model Performance Tab specifications
             const modelAuc = document.getElementById('model-tab-roc-auc');
             if (modelAuc) modelAuc.innerText = (model['ROC-AUC'] * 100).toFixed(1) + '%';
 
@@ -3473,10 +3330,8 @@
             const svgText = document.getElementById('model-tab-svg-text');
             if (svgText) svgText.textContent = `Threshold = 0.50 (Acc: ${(model.Accuracy * 100).toFixed(1)}%)`;
 
-            // 4. Update Tested Algorithms Matrix layout dynamically to highlight selected model as active
             updateAlgorithmsMatrix(model.Model);
 
-            // 5. Update System Configuration thresholds (locked/read-only for each model)
             let highLimit = 70;
             let medLimit = 30;
             if (model.Model === 'Random Forest Classifier' || model.Model === 'Random Forest') {
@@ -3506,7 +3361,6 @@
             }
         }
 
-        // Dynamically style selected model in algorithms rank matrix
         function updateAlgorithmsMatrix(activeModelName) {
             const lrCard = document.getElementById('matrix-card-lr');
             const rfCard = document.getElementById('matrix-card-rf');
@@ -3549,7 +3403,6 @@
             styleCard(xgbCard, activeModelName === 'XGBoost', 'XGBoost Classifier', 'Optimized challenger', xgbAuc);
         }
 
-        // Populate Form Select values dynamically from server schemas
         function populatePredictorDropdowns(schemas) {
             const mappings = {
                 'customer_gender': 'form-customer_gender',
@@ -3594,7 +3447,6 @@
             updateChartsTheme();
         }
 
-        // Set initial icon
         window.addEventListener('DOMContentLoaded', () => {
             if (document.documentElement.classList.contains('dark')) {
                 const icon = document.getElementById('theme-icon');
@@ -3613,7 +3465,6 @@
             Chart.defaults.color = textColor;
             Chart.defaults.borderColor = gridColor;
 
-            // Update specific charts
             if (charts.featureImp) {
                 charts.featureImp.options.scales.x.ticks.color = textColor;
                 charts.featureImp.options.scales.x.grid.color = gridColor;
@@ -3654,7 +3505,6 @@
             }
         }
 
-        // 1. Chart: Feature Importance
         function renderFeatureImportanceChart(featureImp) {
             if (!featureImp || featureImp.length === 0) return;
 
@@ -3705,7 +3555,6 @@
             });
         }
 
-        // 2. Chart: Lead Source Conversion
         function renderLeadSourceChart(leadSources) {
             if (!leadSources || leadSources.length === 0) return;
 
@@ -3748,7 +3597,6 @@
             });
         }
 
-        // Custom Plugins for exact mockup reproduction
         const dataLabelsTopPlugin = {
             id: 'dataLabelsTop',
             afterDatasetsDraw(chart, args, options) {
@@ -3785,11 +3633,9 @@
             }
         };
 
-        // 3. Chart: Product Category Conversion
         function renderProductCategoryChart(categories, globalAvg) {
             if (!categories || categories.length === 0) return;
 
-            // Set the dynamic global avg text in the floating box
             if (document.getElementById('chart-global-avg-text')) {
                 document.getElementById('chart-global-avg-text').innerText = globalAvg.toFixed(1) + '%';
             }
@@ -3800,14 +3646,12 @@
             const labels = categories.map(c => `${c.product_category} (${Number(c.mean).toFixed(1)}%)`);
             const conversionRates = categories.map(c => c.mean);
 
-            // Generate gradients for normal and highlighted bars
             const gradient = ctx.createLinearGradient(0, 0, 0, 400);
-            gradient.addColorStop(0, 'rgba(167, 139, 250, 0.85)'); // Lighter lavender top
-            gradient.addColorStop(1, 'rgba(139, 92, 246, 0.4)'); // Bottom
-
+            gradient.addColorStop(0, 'rgba(167, 139, 250, 0.85)');
+            gradient.addColorStop(1, 'rgba(139, 92, 246, 0.4)');
             const highlightGradient = ctx.createLinearGradient(0, 0, 0, 400);
-            highlightGradient.addColorStop(0, 'rgba(109, 40, 217, 1)'); // Deep bright purple top
-            highlightGradient.addColorStop(1, 'rgba(139, 92, 246, 0.8)'); // Bottom
+            highlightGradient.addColorStop(0, 'rgba(109, 40, 217, 1)');
+            highlightGradient.addColorStop(1, 'rgba(139, 92, 246, 0.8)');
 
             const backgroundColors = labels.map(l => l === 'Electric' ? highlightGradient : gradient);
 
@@ -3821,7 +3665,7 @@
                             type: 'line',
                             label: 'Trend Line',
                             data: conversionRates,
-                            borderColor: 'rgba(244, 63, 94, 0.35)', // Softer, lower brightness red
+                            borderColor: 'rgba(244, 63, 94, 0.35)',
                             borderWidth: 2,
                             pointBackgroundColor: 'rgba(244, 63, 94, 0.6)',
                             pointBorderColor: '#ffffff',
@@ -3888,7 +3732,7 @@
             });
         }
 
-        // 4. Chart: Lead Quality Distribution Doughnut
+
         function renderLeadQualityChart(highPriorityPct) {
             const ctx = document.getElementById('chart-lead-quality').getContext('2d');
             if (charts.quality) charts.quality.destroy();
@@ -3904,9 +3748,9 @@
                     datasets: [{
                         data: [lowVal, medVal, highVal],
                         backgroundColor: [
-                            'rgba(99, 102, 241, 0.65)',  // Indigo
-                            'rgba(234, 179, 8, 0.65)',   // Yellow
-                            'rgba(108, 92, 231, 0.65)'   // Purple
+                            'rgba(99, 102, 241, 0.65)',
+                            'rgba(234, 179, 8, 0.65)',
+                            'rgba(108, 92, 231, 0.65)'
                         ],
                         borderColor: [
                             '#6366F1',
@@ -3940,7 +3784,7 @@
             });
         }
 
-        // 5. Sidebar Collapsible Handler
+
         function toggleSidebar() {
             const sidebar = document.getElementById('main-sidebar');
             const pinIcon = document.getElementById('sidebar-pin-icon');
@@ -3949,14 +3793,12 @@
             const textLabels = document.querySelectorAll('.nav-text');
 
             if (sidebar.classList.contains('w-66')) {
-                // Collapse
                 sidebar.classList.replace('w-66', 'w-20');
                 pinIcon.classList.replace('fa-chevron-left', 'fa-chevron-right');
                 if (logoText) logoText.classList.add('opacity-0', 'pointer-events-none');
                 if (footer) footer.classList.add('opacity-0', 'pointer-events-none');
                 textLabels.forEach(el => el.classList.add('hidden'));
             } else {
-                // Expand
                 sidebar.classList.replace('w-20', 'w-66');
                 pinIcon.classList.replace('fa-chevron-right', 'fa-chevron-left');
                 if (logoText) logoText.classList.remove('opacity-0', 'pointer-events-none');
@@ -3965,7 +3807,6 @@
             }
         }
 
-        // Single Lead prediction submission
         async function submitPrediction(e) {
             e.preventDefault();
 
@@ -4005,21 +3846,18 @@
                 const data = await res.json();
 
                 if (data.success) {
-                    // Hide placeholder, show results panel
                     document.getElementById('results-placeholder').classList.add('hidden');
                     document.getElementById('results-panel').classList.remove('hidden');
 
-                    // Render Score Ring Gauge
                     const scorePct = data.lead_score * 100;
                     document.getElementById('score-text-pct').innerText = scorePct.toFixed(1) + "%";
 
                     const ring = document.getElementById('score-ring');
-                    const circumference = 2 * Math.PI * 40; // 251.2
+                    const circumference = 2 * Math.PI * 40;
                     const offset = circumference - (data.lead_score * circumference);
                     ring.style.strokeDasharray = circumference;
                     ring.style.strokeDashoffset = offset;
 
-                    // Set color classes based on priority
                     const priorityText = document.getElementById('score-priority-text');
                     const priorityBadge = document.getElementById('score-priority-badge');
                     const priorityDot = document.getElementById('score-priority-dot');
@@ -4028,25 +3866,23 @@
                     priorityText.innerText = data.lead_category;
                     outcomeHeading.innerText = data.prediction === 1 ? "Likely to Convert" : "Unlikely to Convert";
 
-                    // Reset badge color and apply appropriate styles
                     priorityBadge.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold tracking-wide uppercase border";
                     priorityDot.className = "fa-solid fa-circle text-[7px]";
 
                     if (data.lead_category === 'High Priority') {
                         priorityBadge.classList.add('bg-purple-500/10', 'text-purple-400', 'border-purple-500/20');
                         priorityDot.classList.add('text-purple-400');
-                        ring.style.stroke = '#8B5CF6'; // purple accent
+                        ring.style.stroke = '#8B5CF6';
                     } else if (data.lead_category === 'Medium Priority') {
                         priorityBadge.classList.add('bg-amber-500/10', 'text-amber-600', 'dark:text-amber-400', 'border-amber-500/20');
                         priorityDot.classList.add('text-amber-600', 'dark:text-amber-400');
-                        ring.style.stroke = '#D97706'; // amber accent
+                        ring.style.stroke = '#D97706';
                     } else {
                         priorityBadge.classList.add('bg-indigo-500/10', 'text-indigo-600', 'dark:text-indigo-400', 'border-indigo-500/20');
                         priorityDot.classList.add('text-indigo-600', 'dark:text-indigo-400');
-                        ring.style.stroke = '#6366F1'; // indigo accent
+                        ring.style.stroke = '#6366F1';
                     }
 
-                    // Set recommendations & driving factors
                     document.getElementById('score-recommendation').innerText = data.recommendation;
 
                     const factorsList = document.getElementById('score-factors');
@@ -4055,7 +3891,6 @@
                         const li = document.createElement('li');
                         li.className = "flex items-start gap-2.5 text-slate-600 dark:text-slate-300";
 
-                        // Check if factor is positive or negative and set icon
                         const isNeg = fact.includes("limits") || fact.includes("Slow") || fact.includes("risk");
                         const icon = isNeg
                             ? `<span class="text-rose-500 mt-0.5"><i class="fa-solid fa-circle-minus"></i></span>`
@@ -4070,7 +3905,6 @@
             }
         }
 
-        // Database Table loading
         async function loadDatabase(page) {
             currentDBPage = page;
             const search = document.getElementById('db-search').value;
@@ -4089,7 +3923,6 @@
                 document.getElementById('db-showing-count').innerText = Number(data.total).toLocaleString();
                 document.getElementById('db-page-info').innerText = `Page ${data.page} of ${data.pages || 1}`;
 
-                // Disable/enable pagination buttons
                 document.getElementById('db-btn-prev').disabled = data.page <= 1;
                 document.getElementById('db-btn-next').disabled = data.page >= data.pages;
 
@@ -4111,7 +3944,6 @@
                     const tr = document.createElement('tr');
                     tr.className = "hover:bg-slate-50/40 border-b border-slate-200/40 transition-colors";
 
-                    // Priority Badge styling
                     let prioClass = "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20";
                     if (lead.lead_category === 'High Priority') {
                         prioClass = "bg-purple-500/10 text-[#6C5CE7] dark:text-purple-400 border border-purple-500/20";
@@ -4119,7 +3951,6 @@
                         prioClass = "bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-500/20";
                     }
 
-                    // Outcome Badge
                     const outcomeText = lead.converted === 1 ? "Converted" : "Not Converted";
                     const outcomeClass = lead.converted === 1
                         ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
@@ -4168,7 +3999,6 @@
             }, 300);
         }
 
-        // Open details modal for a database lead
         function openLeadDetails(lead) {
             document.getElementById('modal-lead-id').innerText = lead.lead_id;
             document.getElementById('modal-lead-source').innerText = lead.lead_source;
@@ -4176,14 +4006,12 @@
             document.getElementById('modal-lead-score').innerText = `${(lead.lead_score * 100).toFixed(1)}%`;
             document.getElementById('modal-lead-priority').innerText = lead.lead_category;
 
-            // Priority styling in modal
             const pText = document.getElementById('modal-lead-priority');
             pText.className = "text-sm font-bold mt-0.5";
             if (lead.lead_category === 'High Priority') pText.classList.add('text-[#6C5CE7]', 'dark:text-purple-400');
             else if (lead.lead_category === 'Medium Priority') pText.classList.add('text-amber-600', 'dark:text-amber-400');
             else pText.classList.add('text-indigo-600', 'dark:text-indigo-400');
 
-            // Set fields
             document.getElementById('modal-cust-age-gender').innerText = `${lead.customer_age || 'N/A'} / ${lead.customer_gender || 'N/A'}`;
             document.getElementById('modal-cust-emp').innerText = lead.customer_employment_type || 'N/A';
             document.getElementById('modal-cust-income').innerText = `$${Number(lead.customer_annual_income).toLocaleString()}`;
@@ -4209,7 +4037,7 @@
             document.getElementById('modal-discount-off').innerText = `${lead.discount_offered_pct || 0}%`;
             document.getElementById('modal-sentiment').innerText = lead.sentiment_last_interaction || 'Neutral';
 
-            // Show modal
+
             document.getElementById('lead-modal').classList.remove('hidden');
         }
 
@@ -4217,7 +4045,6 @@
             document.getElementById('lead-modal').classList.add('hidden');
         }
 
-        // Bulk CSV Upload & Predict Handling
         function highlightDropzone() {
             document.getElementById('dropzone').classList.add('border-accentIndigo', 'bg-slate-50/10');
         }
@@ -4283,14 +4110,12 @@
                     btn.innerHTML = `<i class="fa-solid fa-check"></i><span>Scoring Complete</span>`;
                     btn.className = "w-full py-3 rounded-xl bg-emerald-600 text-slate-900 font-semibold text-sm transition-all flex items-center justify-center gap-2";
 
-                    // Show metrics & preview
                     document.getElementById('bulk-results-panel').classList.remove('hidden');
                     document.getElementById('bulk-stat-total').innerText = data.summary.total_scored.toLocaleString();
                     document.getElementById('bulk-stat-conv').innerText = data.summary.predicted_conversions.toLocaleString();
                     document.getElementById('bulk-stat-conv-rate').innerText = data.summary.conversion_rate_pct.toFixed(1) + "%";
                     document.getElementById('bulk-stat-high').innerText = data.summary.high_priority_pct.toFixed(1) + "%";
 
-                    // Render preview rows
                     const previewTbody = document.getElementById('bulk-preview-tbody');
                     previewTbody.innerHTML = '';
 
@@ -4312,7 +4137,6 @@
                         previewTbody.appendChild(tr);
                     });
 
-                    // Setup Download Link
                     const dlBtn = document.getElementById('bulk-download-link');
                     dlBtn.href = `data:text/csv;base64,${data.csv_data}`;
                     dlBtn.download = data.filename;
@@ -4328,13 +4152,11 @@
         async function retrainModelPrompt() {
             if (confirm("Are you sure you want to retrain the machine learning model? This will run the training pipeline across all datasets and output model results.")) {
                 alert("Triggering ML training pipeline in the background. Please wait...");
-                // Note: Normally we can set up a route to trigger, or wait. Let's provide a message.
             }
         }
 
     </script>
 
-    <!-- Global Data Modal -->
     <div id="dataModal"
         class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 rounded-2xl shadow-2xl w-full max-w-lg max-h-[80vh] flex flex-col">
@@ -4354,16 +4176,12 @@
         </div>
     </div>
 
-    <!-- Model Details Modal -->
     <div id="modelModal" class="fixed inset-0 z-[100] hidden">
-        <!-- Backdrop -->
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeModelModal()">
         </div>
 
-        <!-- Modal Content -->
         <div
             class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white dark:bg-slate-900 rounded-3xl shadow-2xl overflow-hidden flex flex-col">
-            <!-- Header -->
             <div
                 class="px-6 py-5 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center bg-slate-50 dark:bg-slate-800/50">
                 <div class="flex items-center gap-3">
@@ -4381,9 +4199,7 @@
                 </button>
             </div>
 
-            <!-- Body -->
             <div class="p-6 space-y-6">
-                <!-- Metrics Grid -->
                 <div class="grid grid-cols-2 gap-4">
                     <div
                         class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-100 dark:border-slate-800">
@@ -4407,7 +4223,6 @@
                     </div>
                 </div>
 
-                <!-- Training Info -->
                 <div class="space-y-3">
                     <h4 class="text-sm font-bold text-slate-800 dark:text-slate-200">Training Details</h4>
                     <div class="space-y-2 text-sm">
@@ -4432,7 +4247,6 @@
                 </div>
             </div>
 
-            <!-- Footer -->
             <div
                 class="px-6 py-4 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex justify-end">
                 <button
@@ -4444,7 +4258,6 @@
     </div>
 
 
-    <!-- Features Modal -->
     <div id="featuresModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
             onclick="closeFeaturesModal()"></div>
@@ -4483,7 +4296,6 @@
         </div>
     </div>
 
-    <!-- Sources Modal -->
     <div id="sourcesModal" class="fixed inset-0 z-[100] hidden">
         <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity" onclick="closeSourcesModal()">
         </div>
