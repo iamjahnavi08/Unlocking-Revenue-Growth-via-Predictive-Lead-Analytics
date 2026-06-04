@@ -1,6 +1,4 @@
-
-
-# ========================================import os
+import os
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -21,20 +19,17 @@ from xgboost import XGBClassifier
 from sklearn.linear_model import LogisticRegression
 import pickle
 
-# Set plotting styling
 sns.set_theme(style="whitegrid")
 plt.rcParams['figure.figsize'] = (12, 7)
 plt.rcParams['font.size'] = 11
 
 print("  Libraries imported successfully!")
 
-# Define paths
 csv_path = "finance_sales_01(2).csv"
 if not os.path.exists(csv_path):
     csv_path =  r'C:\Users\akumalla.jahnavi.EXAFLUENCE-INC\Desktop\testing app project\finance_sales_01.csv'
 
 
-# Load dataframe
 df = pd.read_csv(csv_path)
 
 print(f"Dataset successfully loaded")
@@ -45,26 +40,22 @@ print(f"\n Missing Values:\n{df.isnull().sum().sum()} total null values")
 print(f"\n First 5 Rows:")
 df.head()
 
-# Statistical summary
 print("Statistical Summary:")
 df.describe()
 
-# Check target variable distribution
 print("Target Variable Distribution:")
 print(df['converted'].value_counts())
 print(f"\nConversion Rate: {df['converted'].mean()*100:.2f}%")
 
-# Class Balance Visualization
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
-# Pie chart
 colors = ["#acff9985", '#66b3ff']
 converted_counts = df['converted'].value_counts()
 axes[0].pie(converted_counts.values, labels=['Not Converted', 'Converted'], autopct='%1.1f%%',
             colors=colors, startangle=90, textprops={'fontsize': 12, 'weight': 'bold'})
 axes[0].set_title('Lead Conversion Balance', fontsize=14, fontweight='bold')
 
-# Count plot
+
 sns.countplot(x='converted', hue='converted', data=df, palette='Set2', ax=axes[1], legend=False)
 axes[1].set_title('Lead Conversion Count', fontsize=14, fontweight='bold')
 axes[1].set_xlabel('Converted (0 = No, 1 = Yes)', fontsize=11)
@@ -76,7 +67,7 @@ for p in axes[1].patches:
 plt.tight_layout()
 plt.show()
 
-# Key Numeric Features vs Conversion
+
 fig, axes = plt.subplots(2, 2, figsize=(15, 10))
 
 features_to_plot = ['customer_credit_score', 'customer_annual_income', 
@@ -92,7 +83,7 @@ for idx, feature in enumerate(features_to_plot):
 plt.tight_layout()
 plt.show()
 
-# Correlation Heatmap
+
 numeric_cols = [
     'deal_value_usd', 'customer_age', 'customer_annual_income', 'customer_credit_score', 
     'customer_existing_products_count', 'customer_relationship_tenure_years', 
@@ -108,10 +99,9 @@ plt.title('Correlation Heatmap of Key Numerical Features', fontsize=14, fontweig
 plt.tight_layout()
 plt.show()
 
-# Conversion by Product Category
+
 fig, axes = plt.subplots(2, 1, figsize=(14, 10))
 
-# Product Category
 product_conv = df.groupby('product_category')['converted'].agg(['mean', 'count']).reset_index().sort_values(by='mean', ascending=False)
 sns.barplot(x='mean', y='product_category', hue='product_category', data=product_conv, palette='viridis', ax=axes[0], legend=False)
 axes[0].set_title('Lead Conversion Rate by Product Category', fontsize=12, fontweight='bold')
@@ -120,7 +110,6 @@ axes[0].set_ylabel('Product Category', fontsize=10)
 axes[0].axvline(df['converted'].mean(), color='red', linestyle='--', linewidth=2, label=f'Global Avg ({df["converted"].mean()*100:.1f}%)')
 axes[0].legend()
 
-# Lead Source
 source_conv = df.groupby('lead_source')['converted'].agg(['mean', 'count']).reset_index().sort_values(by='mean', ascending=False)
 sns.barplot(x='mean', y='lead_source', hue='lead_source', data=source_conv, palette='mako', ax=axes[1], legend=False)
 axes[1].set_title('Lead Conversion Rate by Lead Source', fontsize=12, fontweight='bold')
@@ -132,11 +121,11 @@ axes[1].legend()
 plt.tight_layout()
 plt.show()
 
-# Create a copy for processing
+
 df_processed = df.sample(n=min(5000, len(df)), random_state=42).copy()
 print(f"Using {len(df_processed):,} records for faster model training and notebook execution.")
 
-# Feature Engineering
+
 print("Engineering custom features...")
 df_processed['income_to_deal_ratio'] = df_processed['customer_annual_income'] / (df_processed['deal_value_usd'] + 1)
 df_processed['touchpoints_per_day'] = df_processed['num_total_touchpoints'] / (df_processed['days_in_pipeline'] + 1)
@@ -146,11 +135,11 @@ df_processed['high_value_customer'] = (df_processed['customer_annual_income'] > 
 print(" Feature engineering complete!")
 print(f"   New features created: income_to_deal_ratio, touchpoints_per_day, credit_score_normalized, high_value_customer")
 
-# Separate Target and Features
+
 X = df_processed.drop(columns=['lead_id', 'sales_rep_id', 'converted'])
 y = df_processed['converted']
 
-# Identify feature types
+
 categorical_cols = X.select_dtypes(include=['object']).columns.tolist()
 numerical_cols = X.select_dtypes(include=['int64', 'float64']).columns.tolist()
 
@@ -160,7 +149,7 @@ print(f"   Categorical features ({len(categorical_cols)}): {categorical_cols}")
 print(f"   Total features: {len(numerical_cols) + len(categorical_cols)}")
 print(f"   Target variable distribution:\n{y.value_counts()}")
 
-# Train-Test Split with stratification
+
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.2, random_state=42, stratify=y
 )
@@ -172,7 +161,6 @@ print(f"   Features per sample: {X_train.shape[1]}")
 print(f"\n   Train set conversion rate: {y_train.mean()*100:.2f}%")
 print(f"   Test set conversion rate:  {y_test.mean()*100:.2f}%")
 
-# Create preprocessing pipeline
 preprocessor = ColumnTransformer(
     transformers=[
         ('num', StandardScaler(), numerical_cols),
@@ -182,7 +170,6 @@ preprocessor = ColumnTransformer(
 
 print("  Preprocessing pipeline built successfully!")
 
-# Define models
 models = {
     'Logistic Regression': LogisticRegression(max_iter=1000, random_state=42, n_jobs=-1),
     'Random Forest': RandomForestClassifier(n_estimators=25, max_depth=8, random_state=42, n_jobs=-1),
@@ -198,7 +185,6 @@ models = {
     )
 }
 
-# Train all models
 results = []
 trained_pipelines = {}
 predictions_dict = {}
@@ -212,16 +198,14 @@ for model_name, model in models.items():
         ('classifier', model)
     ])
     
-    # Train
+    
     pipeline.fit(X_train, y_train)
     trained_pipelines[model_name] = pipeline
     
-    # Predict
     y_pred_model = pipeline.predict(X_test)
     y_pred_proba_model = pipeline.predict_proba(X_test)[:, 1]
     predictions_dict[model_name] = {'pred': y_pred_model, 'proba': y_pred_proba_model}
     
-    # Calculate metrics
     results.append({
         'Model': model_name,
         'Accuracy': accuracy_score(y_test, y_pred_model),
@@ -232,7 +216,6 @@ for model_name, model in models.items():
     })
     print(f"    {model_name} completed")
 
-# Results dataframe
 df_results_numeric = pd.DataFrame(results).sort_values(by='ROC-AUC', ascending=False).reset_index(drop=True)
 df_results = df_results_numeric.copy()
 for col in ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'ROC-AUC']:
@@ -241,17 +224,14 @@ for col in ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'ROC-AUC']:
 print("\n Model Performance Results:")
 df_results
 
-# Display results
 print("\n Model Performance Results:\n")
 print(df_results.to_string(index=False))
 print("\n" + "="*80)
 
-# Extract numeric values for comparison
 df_results_numeric = df_results.copy()
 for col in ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'ROC-AUC']:
     df_results_numeric[col] = df_results_numeric[col].astype(float)
 
-# Identify champion model
 champion_name = df_results_numeric.loc[df_results_numeric['ROC-AUC'].astype(float).idxmax(), 'Model']
 champion_roc_auc = df_results_numeric.loc[df_results_numeric['Model'] == champion_name, 'ROC-AUC'].values[0]
 
@@ -259,15 +239,13 @@ print(f"\n CHAMPION MODEL: {champion_name}")
 print(f"   ROC-AUC Score: {champion_roc_auc:.4f}")
 print(f"\nThis model will be used for further analysis and predictions.")
 
-# Get champion predictions
+
 champion_pipeline = trained_pipelines[champion_name]
 y_pred = predictions_dict[champion_name]['pred']
 y_pred_proba = predictions_dict[champion_name]['proba']
 
-# Create evaluation plots
 fig, axes = plt.subplots(1, 2, figsize=(16, 6))
 
-# Confusion Matrix
 cm = confusion_matrix(y_test, y_pred)
 sns.heatmap(cm, annot=True, fmt="d", cmap="Blues", cbar=False, ax=axes[0], 
             xticklabels=['Not Converted', 'Converted'], yticklabels=['Not Converted', 'Converted'])
@@ -275,7 +253,6 @@ axes[0].set_title(f'{champion_name}\nConfusion Matrix', fontsize=13, fontweight=
 axes[0].set_ylabel('True Label', fontsize=11)
 axes[0].set_xlabel('Predicted Label', fontsize=11)
 
-# ROC Curve
 fpr, tpr, thresholds = roc_curve(y_test, y_pred_proba)
 axes[1].plot(fpr, tpr, color='darkorange', lw=2.5, 
              label=f'ROC Curve (AUC = {roc_auc_score(y_test, y_pred_proba):.4f})')
@@ -292,11 +269,9 @@ axes[1].grid(alpha=0.3)
 plt.tight_layout()
 plt.show()
 
-# Detailed Classification Report
 print(f"\n DETAILED CLASSIFICATION REPORT - {champion_name}\n")
 print(classification_report(y_test, y_pred, target_names=['Not Converted', 'Converted'], digits=4))
 
-# Model Comparison Visualization
 fig, ax = plt.subplots(figsize=(12, 6))
 
 metrics = ['Accuracy', 'Precision', 'Recall', 'F1-Score', 'ROC-AUC']
@@ -320,23 +295,18 @@ ax.grid(axis='y', alpha=0.3)
 plt.tight_layout()
 plt.show()
 
-# Extract feature importances
 print(" Extracting feature importances...")
 
-# Get the best performing model (using Random Forest for interpretability)
 rf_pipeline = trained_pipelines['Random Forest']
 rf_model = rf_pipeline.named_steps['classifier']
 preprocessor_obj = rf_pipeline.named_steps['preprocessor']
 
-# Get feature names
 cat_features_encoded = preprocessor_obj.named_transformers_['cat'].get_feature_names_out(categorical_cols).tolist()
 all_feature_names = numerical_cols + cat_features_encoded
 
-# Get importances
 importances = rf_model.feature_importances_
 indices = np.argsort(importances)[::-1]
 
-# Create DataFrame
 df_importance = pd.DataFrame({
     'Feature': [all_feature_names[i] for i in indices],
     'Importance': importances[indices]
@@ -346,7 +316,6 @@ print(" Feature importance extraction complete!")
 print(f"\nTop 20 Most Important Features:")
 print(df_importance.head(20).to_string(index=False))
 
-# Visualize top 15 features
 plt.figure(figsize=(12, 8))
 sns.barplot(x='Importance', y='Feature', hue='Feature', data=df_importance.head(15), palette='rocket', legend=False)
 plt.title('Top 15 Predictive Features Driving Lead Conversion (Random Forest)', fontsize=14, fontweight='bold')
@@ -355,8 +324,7 @@ plt.ylabel('Feature Name', fontsize=11)
 plt.tight_layout()
 plt.show()
 
-# Create lead scores for the same dataframe used for model training
-# Here df_processed has 5,000 records, so we must add 5,000 predictions to df_processed only
+
 scored_df = df_processed.copy()
 
 all_scores = champion_pipeline.predict_proba(X)[:, 1]
@@ -365,7 +333,7 @@ all_predictions = champion_pipeline.predict(X)
 scored_df['lead_score'] = all_scores
 scored_df['predicted_conversion'] = all_predictions
 
-# Categorize leads
+
 scored_df['lead_category'] = pd.cut(
     scored_df['lead_score'],
     bins=[0, 0.3, 0.7, 1.0],
@@ -381,11 +349,10 @@ print(f"   Min: {scored_df['lead_score'].min():.4f}")
 print(f"   Max: {scored_df['lead_score'].max():.4f}")
 print("\nLead Priority Distribution:")
 print(scored_df['lead_category'].value_counts().sort_index())
-
-# Visualize lead scores
+ 
 fig, axes = plt.subplots(1, 2, figsize=(15, 5))
 
-# Lead score distribution
+
 axes[0].hist(scored_df['lead_score'], bins=50, color='steelblue', edgecolor='black', alpha=0.7)
 axes[0].axvline(0.3, color='green', linestyle='--', linewidth=2, label='Low/Medium Threshold')
 axes[0].axvline(0.7, color='red', linestyle='--', linewidth=2, label='Medium/High Threshold')
@@ -395,7 +362,7 @@ axes[0].set_ylabel('Frequency', fontsize=11)
 axes[0].legend()
 axes[0].grid(alpha=0.3)
 
-# Lead priority distribution
+
 priority_counts = scored_df['lead_category'].value_counts()
 colors_priority = ["#99bdff", '#ffff99', "#f899ff"]
 axes[1].pie(priority_counts.values, labels=priority_counts.index, autopct='%1.1f%%', 
@@ -405,7 +372,7 @@ axes[1].set_title('Lead Priority Distribution', fontsize=12, fontweight='bold')
 plt.tight_layout()
 plt.show()
 
-# High priority leads sample
+
 high_priority = scored_df[scored_df['lead_category'] == 'High Priority'].sort_values('lead_score', ascending=False)
 
 print(f"\n HIGH PRIORITY LEADS (Top 10)\n")
@@ -414,7 +381,6 @@ print(f"\nTop 10 Leads to Focus On:")
 display_cols = ['lead_id', 'customer_age', 'customer_annual_income', 'product_category', 'lead_source', 'lead_score', 'predicted_conversion']
 print(high_priority[display_cols].head(10).to_string(index=False))
 
-# Test prediction directly inside the notebook using one sample lead
 sample_new_lead = X_test.iloc[[0]].copy()
 
 sample_prediction = champion_pipeline.predict(sample_new_lead)[0]
@@ -435,7 +401,7 @@ print(f"Lead Priority: {priority}")
 sample_new_lead
 
 print("\n" + "="*80)
-print("🎯 STRATEGIC BUSINESS INSIGHTS & RECOMMENDATIONS")
+print("STRATEGIC BUSINESS INSIGHTS & RECOMMENDATIONS")
 print("="*80)
 
 print("\n1️  KEY FACTORS DRIVING CONVERSION:")
@@ -483,24 +449,22 @@ print("   ✓ Use this model for real-time lead scoring to maximize ROI")
 
 print("\n" + "="*80)
 
-# Save the champion model
+
 import joblib
 
 model_path = 'champion_model.pkl'
 joblib.dump(champion_pipeline, model_path)
 print(f" Champion model saved: {model_path}")
 
-# Save results
+
 results_path = 'model_results.csv'
 df_results.to_csv(results_path, index=False)
 print(f" Model results saved: {results_path}")
 
-# Save feature importance
 importance_path = 'feature_importance.csv'
 df_importance.to_csv(importance_path, index=False)
 print(f" Feature importance saved: {importance_path}")
 
-# Save lead scores
 scores_path = 'lead_scores.csv'
 scored_df[['lead_id', 'lead_score', 'predicted_conversion', 'lead_category']].to_csv(scores_path, index=False)
 print(f" Lead scores saved: {scores_path}")
