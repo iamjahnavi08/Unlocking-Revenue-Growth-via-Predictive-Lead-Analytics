@@ -405,48 +405,48 @@ print("\n" + "="*80)
 print(" STRATEGIC BUSINESS INSIGHTS & RECOMMENDATIONS")
 print("="*80)
 
-print("\n1️  KEY FACTORS DRIVING CONVERSION:")
+print("\n1. KEY FACTORS DRIVING CONVERSION:")
 top_features = df_importance.head(5)
 for idx, row in top_features.iterrows():
-    print(f"   • {row['Feature']}: {row['Importance']*100:.2f}% importance")
+    print(f"   - {row['Feature']}: {row['Importance']*100:.2f}% importance")
 
-print("\n2️  CONVERSION METRICS BY CATEGORY:")
+print("\n2. CONVERSION METRICS BY CATEGORY:")
 cat_analysis = df.groupby('product_category')['converted'].agg(['mean', 'count']).round(3)
 for cat in cat_analysis.index:
     conv_rate = cat_analysis.loc[cat, 'mean'] * 100
     count = int(cat_analysis.loc[cat, 'count'])
-    print(f"   • {cat}: {conv_rate:.1f}% conversion ({count:,} leads)")
+    print(f"   - {cat}: {conv_rate:.1f}% conversion ({count:,} leads)")
 
-print("\n3️  LEAD SOURCE EFFECTIVENESS:")
+print("\n3. LEAD SOURCE EFFECTIVENESS:")
 source_analysis = df.groupby('lead_source')['converted'].agg(['mean', 'count']).sort_values('mean', ascending=False)
 for source in source_analysis.index:
     conv_rate = source_analysis.loc[source, 'mean'] * 100
     count = int(source_analysis.loc[source, 'count'])
-    print(f"   • {source}: {conv_rate:.1f}% conversion ({count:,} leads)")
+    print(f"   - {source}: {conv_rate:.1f}% conversion ({count:,} leads)")
 
-print("\n4️  PRIORITIZATION STRATEGY:")
+print("\n4. PRIORITIZATION STRATEGY:")
 high_count = len(scored_df[scored_df['lead_category'] == 'High Priority'])
 medium_count = len(scored_df[scored_df['lead_category'] == 'Medium Priority'])
 low_count = len(scored_df[scored_df['lead_category'] == 'Low Priority'])
 
-print(f"   • High Priority Leads (Score > 0.70): {high_count:,} ({high_count/len(scored_df)*100:.1f}%)")
-print(f"   • Medium Priority Leads (0.30-0.70): {medium_count:,} ({medium_count/len(scored_df)*100:.1f}%)")
-print(f"   • Low Priority Leads (Score < 0.30): {low_count:,} ({low_count/len(scored_df)*100:.1f}%)")
+print(f"   - High Priority Leads (Score > 0.70): {high_count:,} ({high_count/len(scored_df)*100:.1f}%)")
+print(f"   - Medium Priority Leads (0.30-0.70): {medium_count:,} ({medium_count/len(scored_df)*100:.1f}%)")
+print(f"   - Low Priority Leads (Score < 0.30): {low_count:,} ({low_count/len(scored_df)*100:.1f}%)")
 
-print("\n5️  MODEL PERFORMANCE:")
-print(f"   • Champion Model: {champion_name}")
-print(f"   • ROC-AUC Score: {roc_auc_score(y_test, y_pred_proba):.4f}")
-print(f"   • Accuracy: {accuracy_score(y_test, y_pred):.4f}")
-print(f"   • Precision: {precision_score(y_test, y_pred):.4f}")
-print(f"   • Recall: {recall_score(y_test, y_pred):.4f}")
+print("\n5. MODEL PERFORMANCE:")
+print(f"   - Champion Model: {champion_name}")
+print(f"   - ROC-AUC Score: {roc_auc_score(y_test, y_pred_proba):.4f}")
+print(f"   - Accuracy: {accuracy_score(y_test, y_pred):.4f}")
+print(f"   - Precision: {precision_score(y_test, y_pred):.4f}")
+print(f"   - Recall: {recall_score(y_test, y_pred):.4f}")
 
-print("\n6️  ACTIONABLE RECOMMENDATIONS:")
-print("   ✓ Focus sales efforts on HIGH PRIORITY leads (>70% conversion probability)")
-print("   ✓ Optimize follow-up consistency - it's a top conversion driver")
-print("   ✓ Reduce first contact response time - faster response = higher conversion")
-print("   ✓ Prioritize high-income customers with good credit scores")
-print("   ✓ Allocate more resources to top-performing lead sources")
-print("   ✓ Use this model for real-time lead scoring to maximize ROI")
+print("\n6. ACTIONABLE RECOMMENDATIONS:")
+print("   * Focus sales efforts on HIGH PRIORITY leads (>70% conversion probability)")
+print("   * Optimize follow-up consistency - it's a top conversion driver")
+print("   * Reduce first contact response time - faster response = higher conversion")
+print("   * Prioritize high-income customers with good credit scores")
+print("   * Allocate more resources to top-performing lead sources")
+print("   * Use this model for real-time lead scoring to maximize ROI")
 
 print("\n" + "="*80)
 
